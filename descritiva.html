@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G6 - Estatística</title>
+    <link rel="icon" href="imagens/icone2.png">
+    <link rel="stylesheet" href="menu.css">
+    <link rel="stylesheet" href="descritiva.css"> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">   
+</head>
+
+<body>
+    <header>
+        <div class="inner-width">
+          <a href="index.html" class="logo"><img src="imagens/logo-final.png" alt=""></a>
+          <i class="menu-toggle-btn fas fa-bars"></i>
+          <nav class="navigation-menu">
+            <a href="descritiva.html"><i class="fas fa-chart-bar home"></i></i> Descritiva</a>
+            <a href="#"><i class="fas fa-align-left about"></i> Probabilidade</a>
+            <a href="#"><i class="fab fa-buffer works"></i> Correlação</a>
+            <a href="#"><i class="fas fa-users team"></i> Sobre nós</a>          
+          </nav>
+        </div>
+      </header>
+  
+  
+    <script type="text/javascript">
+    $(".menu-toggle-btn").click(function(){
+        $(this).toggleClass("fa-times");
+        $(".navigation-menu").toggleClass("active");
+    });
+    </script>
+
+    <div>
+        <h1>ESTATÍSTICA DESCRITIVA</h1>
+    </div>
+    <div id="formulario">
+        <form>
+            <div>
+                <label>Nome da Variável:</label><br><input class="dados" id="nome-var" type="text" placeholder="Digite o nome da variável">
+            </div>
+            <div>
+                <label>Coleta de Dados:</label><br><input class="dados" id="dados" type="text" placeholder="Digite os dados"></div>
+            <div class="populacao">
+                <label>
+                    <input type="radio" name="escolha" id="População" checked>
+                    <i class="fa fa-check"></i>População
+                </label>
+                <label>
+                    <input type="radio" name="escolha" id="Amostra">
+                    <i class="fa fa-check"></i>Amostra
+                </label>
+            </div>
+            <div>
+                <label>Tipo de Variável:</label><br>
+                <select class="select" id="tipo de variavel">
+                    <option >Selecione</option>
+                    <option>Qualitativa Nominal</option>
+                    <option >Qualitativa Ordinal</option>
+                    <option>Quantitativa Discreta</option>
+                    <option>Quantitativa Contínua</option>
+                </select>
+            </div>
+            <div id="ordem">
+                <label>Coloque a ordem dos dados</label><br><input class="dados" id="ordem_dados" type="text" placeholder="Digite a ordem desejada"></div>
+            </div>
+            <div id="botao">
+                <input class="botao" id="button" type="button" value="CALCULAR"  onmouseclick = "botaoClique" >
+                <input class="botao" id="button" type="button" value="LIMPAR DADOS" onclick="window.location.reload()">
+            </div>        
+        </form>       
+        
+    </div>
+    <section id="section-tabelas">    
+        <div id="medida_separatriz"> 
+            <h2>Medidas Separatrizes</h2>
+            <select class="select medida" id="medias_moveis">
+                <option>Selecione a medida separatriz</option>
+                <option onmouseclick = "criando_valores" >Quartil</option>
+                <option onmouseclick = "criando_valores">Quintil</option>
+                <option onmouseclick = "criando_valores">Decil</option>
+                <option onmouseclick = "criando_valores">Porcentil</option>
+            </select>
+            <select class="select medida valor" id="medias_moveis_valores">
+            </select>
+            <br><i class="fas fa-arrow-right"></i><p id="media_movel_resultado"></p>
+        </div>    
+        
+    
+        <div>
+            <table id="tabela_medias"></table>
+        </div>
+        
+        <div id="tabela">
+            <table id="tabelasvariaveis"></table>
+        </div>
+        
+        <div id="varianca">
+            <table id="varianca_desvio"></table>
+        </div>
+    </section>
+    
+    <aside id="aside-grafico">
+        <div id="canvas">
+            <canvas id="myChart" ></canvas>
+        </div>
+    </aside>
+
+    <a href="#" class="to-top">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+
+    <footer id="rodape"></footer> 
+
+    <script src="descritiva.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>    
+</body>
+</html>
