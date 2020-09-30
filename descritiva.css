@@ -132,13 +132,80 @@ aside#aside-grafico {
     float: left;
 }
 
+
+div#tabela {
+    position: relative;
+    width: 600px;
+    margin: auto;
+}
+
+table{
+    /*border: 1px solid #606060;*/
+    overflow: hidden;
+    border-radius: 20px;
+    border-spacing: 0px;
+    /*margin-top: 0px;*/
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: bold;
+}
+
+table#tabela_medias {
+    margin-top: 30px;
+    width: 600px;
+}
+
+table#tabelasvariaveis {
+    margin-top: 20px;
+}
+
+tr#cabecalho {
+    background-color: #4d1717;
+    color: white;    
+}
+
+tr:nth-child(even) {background-color: #A56B6B;}
+tr:nth-child(odd) {background-color: #fff;}
+
+tr:hover:not(#cabecalho) {
+    background-color: rgba(0, 0, 0, .5);
+    color: white;
+    font-weight: 600;
+}
+
+table td {            
+    border: 1px  #606060;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+table td#celula1 {
+    padding: 0px;
+    width: 300px;
+}
+
+/* GRÁFICO */
+div#canvas { 
+    visibility:hidden;   
+    background-color: #fff;
+    overflow: hidden;
+    border-radius: 25px;
+    position: relative;      
+    width: 600px;
+    margin-top: 20px; 
+    padding: 15px;   
+}
+
+/* MEDIDAS SEPARATRIZES */
 div#medida_separatriz{
     visibility:hidden;
     height: 150px;
     position: relative;
     width: 550px;
-    margin: auto;
-    margin-bottom: -50px;
+    margin-left: 50px;    
     background-color: #fff;
     border-radius: 20px;
 }
@@ -182,71 +249,7 @@ p {
     font-weight: bolder;
 }
 
-div#tabela {
-    position: relative;
-    width: 550px;
-    margin: auto;
-}
-
-table{
-    /*border: 1px solid #606060;*/
-    overflow: hidden;
-    border-radius: 20px;
-    border-spacing: 0px;
-    /*margin-top: 0px;*/
-    margin-bottom: 10px;
-    margin-left: auto;
-    margin-right: auto;
-    font-weight: bold;
-}
-
-table#tabela_medias {
-    margin-top: 70px;
-    width: 550px;
-}
-
-table#tabelasvariaveis {
-    margin-top: 20px;
-}
-
-tr#cabecalho {
-    background-color: #4d1717;
-    color: white;    
-}
-
-tr:nth-child(even) {background-color: #A56B6B;}
-tr:nth-child(odd) {background-color: #fff;}
-
-tr:hover:not(#cabecalho) {
-    background-color: rgba(0, 0, 0, .5);
-    color: white;
-    font-weight: 600;
-}
-
-table td {            
-    border: 1px  #606060;
-    border-bottom: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
-    vertical-align: middle;
-}
-
-table td#celula1 {
-    padding: 0px;
-    width: 300px;
-}
-
-div#canvas { 
-    visibility:hidden;   
-    background-color: #fff;
-    overflow: hidden;
-    border-radius: 25px;
-    position: relative;      
-    width: 600px;
-    margin-top: 50px; 
-    padding: 15px;   
-}
-
+/* BOTÃO DE VOLTAR PARA O TOPO */
 .to-top {
     background: white;
     position: fixed;
