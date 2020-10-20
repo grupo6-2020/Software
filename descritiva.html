@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>G6 - Estatística</title>
-    <link rel="icon" href="imagens/icone2.png">
-    <link rel="stylesheet" href="menu.css">
-    <link rel="stylesheet" href="descritiva.css"> 
+    <link rel="icon" href="img/icone2.png">
+    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/descritiva.css"> 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">   
@@ -15,13 +16,14 @@
 <body>
     <header>
         <div class="inner-width">
-          <a href="index.html" class="logo"><img src="imagens/logo-final.png" alt=""></a>
+          <a href="home.html" class="logo"><img src="img/logo-final.png" alt=""></a>
           <i class="menu-toggle-btn fas fa-bars"></i>
           <nav class="navigation-menu">
             <a href="descritiva.html"><i class="fas fa-chart-bar home"></i></i> Descritiva</a>
-            <a href="#"><i class="fas fa-align-left about"></i> Probabilidade</a>
+            <a href="probabilidade.html"><i class="fas fa-align-left about"></i> Probabilidade</a>
             <a href="#"><i class="fab fa-buffer works"></i> Correlação</a>
-            <a href="#"><i class="fas fa-users team"></i> Sobre nós</a>          
+            <a href="#"><i class="fas fa-users team"></i> Sobre nós</a>  
+            <a href="index.html"><i class="fas fa-sign-out-alt sair"></i> Sair</a>        
           </nav>
         </div>
       </header>
@@ -74,11 +76,7 @@
         </form>       
         
     </div>
-    <section id="section-tabelas">    
-            
-    
-        
-        
+    <section id="section-tabelas">   
         <div id="tabela">
             <table id="tabelasvariaveis"></table>
         </div>
@@ -111,13 +109,12 @@
         </div> 
     </aside>
 
-    <a href="#" class="to-top">
+    <a href="#" id="to-top" class="to-top">
         <i class="fas fa-chevron-up"></i>
     </a>
 
-    <footer id="rodape"></footer> 
 
-    <script src="descritiva.js"></script>
+    <script src="script/descritiva.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>    
 </body>
 </html>
