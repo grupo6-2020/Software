@@ -4,9 +4,7 @@ html {
     scroll-behavior: smooth;
 }
 
-div {
-    margin: 20px;
-} 
+
 
 h1 {
     text-align: center;
@@ -14,7 +12,94 @@ h1 {
     color: #fff;
     font-size: 40px;
     
- }
+}
+
+.titulo {
+    /*width: 95%;*/
+    margin: 20px;
+}
+
+.swiper-container {
+    margin-top: 0px;
+}
+
+.swiper{
+    width: 100%;
+    /*padding-top: 50px;
+    padding-bottom: 50px;*/
+}
+
+.swiper-slide {
+    background-position: center;
+    background-size: cover;
+    width: 530px;
+    height: 450px;
+    /*background: #000;*/
+}
+
+
+.card {
+    width: 400px;
+    height: 350px;
+    overflow: hidden;
+}
+
+.card .face {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: 1s;
+    border-radius: 5px;
+}
+.card .face.face1 {
+    background: #4d1717;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    z-index: 1;   
+    transform-origin: bottom;
+}
+
+.card .face.face1 img{
+    position: relative;
+    left: 20px;
+    padding: 20px;
+    text-align: center;
+    max-width: 200px;
+}
+.card .face.face1 img#normal{
+    left: 0px;
+}
+
+.card .face.face1 h3{
+    font-family: 'Poppins', sans-serif;
+    margin: 10px 0 0;
+    color: #fff;
+    text-align: center;
+    font-size: 3em;
+}
+
+.active .face.face1 {
+    transform: translateY(-100%) rotateX(90deg);
+}
+
+.card .face.face2 {    
+    background: #7c2b2b;
+    display: flex;
+    justify-content: center;
+    align-items: center;padding: 20px;
+    transform: translateY(100%) rotateX(90deg);
+}
+.active .face.face2 {
+    transform: translateY(0) rotateX(0deg);
+}
+
+
+
+
+
  
 /*  FORMULÁRIO  */
 form {
@@ -43,7 +128,7 @@ form {
   font-size: 17px;  
 }
 
-div#botao {
+div#botao, div#botao2, div#botao3 {
     margin-top: 40px;
     text-align: center;
 } 
@@ -74,7 +159,7 @@ div#botao {
 /* TABELA */
 div#tabela {
     position: relative;
-    /*width: 600px;*/
+    width: 600px;
     margin: auto;
 }
 
@@ -88,6 +173,7 @@ table{
     margin-left: auto;
     margin-right: auto;
     font-weight: bold;
+    font-size: 1.5em;
 }
 
 tr#cabecalho {
@@ -111,6 +197,71 @@ table td {
     text-align: center;
     vertical-align: middle;
 }
+
+
+
+
+/**********************     NORMAL       ********************************/
+div#botaoNormal {
+    margin: 20px;
+    width: 95%;
+    display: flex;
+    justify-content: center;
+}
+
+.botaoNormal {
+    cursor: pointer;
+    width: 120px;
+    height: 30px;
+    background-color: #4d1717; /* Green */
+    color: white;
+    float: left;
+    /*padding: 15px 32px;*/
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border: 1px solid #000;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+.botaoNormal[value="Menor"] {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.botaoNormal[value="Maior"] {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.botaoNormal:hover {
+    color: #4d1717;
+    background: #fff;
+    box-shadow: 0 0 5px #fff,
+                0 0 25px #fff;
+}
+
+div#inputProb input {
+    display: none;
+    width: 49%;
+    height: 30px;
+}
+
+div#inputProb input#valorMenor, 
+div#inputProb input#valorMaior {
+    width: 99%;
+}
+
+.gauss {
+    display: none;
+}
+
+
+
+
+
+
+
+
 
 /* BOTÃO DE VOLTAR PARA O TOPO */
 .to-top {
