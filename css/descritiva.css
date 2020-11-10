@@ -5,7 +5,7 @@ html {
 }
 
 div {
-    margin: 20px;
+    margin: 10px;
 } 
 
 h1 {
@@ -23,7 +23,8 @@ form {
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
-    width: 500px;
+    width: 530px;
+    height: 550px;
     margin:auto;
     background-color: #fff;
     font-family: 'Poppins', sans-serif;
@@ -42,10 +43,11 @@ form {
   font-size: 17px;  
 }
 
-.populacao input {
+.populacao input { 
     appearance: none;
     -webkit-appearance: none;
-    cursor: pointer;
+    cursor: none;
+    display: none;
 }
 
 .populacao label .fa {
@@ -92,8 +94,95 @@ form {
     
 }
 
-div#botao {
+.div-upload {
+    /*margin-top: 20px;*/
+    margin-bottom: -10px;
+    display: flex;
+    justify-content: center;
+}
+.div-upload input {
+    display: none
+}
+
+.am, .pop {
     margin-top: 0px;
+    margin-bottom: 30px;
+}
+  
+/* Aparência que terá o seletor de arquivo */
+.am  label {
+    background-color: #4d1717;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    margin: 10px;
+    padding: 6px 20px;
+    line-height: 40px;
+}
+
+
+.pop label .fas {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    background: #4d1717;
+    line-height: 40px;
+    text-align: center;
+    margin: 0 4px;
+    padding-top: 0px;
+    color: #6f6f6f;
+    font-size: 25px;
+    border-radius: 20%;
+    cursor: pointer;
+    box-shadow: -1px -1px 3px rgba(255, 255, 255, 0.1),
+                2px 2px 6px rgba(0, 0, 0, 0.8);    
+}
+.pop label .fas:hover {
+    color: #00fff1;
+    box-shadow: inset -1px -1px 3px rgba(255, 255, 255, 0.1),
+                inset 2px 2px 6px rgba(0, 0, 0, 1); 
+    text-shadow: 0 0 5px #00fff1,
+                 0 0 20px #00fff1;
+}
+
+#side-menu {
+    color: #000;
+    width: 80px;
+    list-style: none;
+    transition: ease-in-out all .4s;
+    display: table;
+}
+
+li {
+    width: 50%;
+    height: 500%;
+    display: table-cell;
+}
+
+.side-menu__label {
+    float: left;
+    line-height: 20px;
+    width: 100px;
+    opacity: 0;
+    position: absolute;
+    transition: ease-in-out all .4s;
+    margin-top: 0px;
+    margin-bottom: 30px
+}
+
+#side-menu:hover {
+    width: 100px;
+}
+
+#side-menu:hover .side-menu__label {
+    opacity: 1;
+}
+
+
+
+
+div#botao {
+    margin-top: 30px;
     text-align: center;
 } 
 

@@ -129,7 +129,7 @@ form {
 }
 
 div#botao, div#botao2, div#botao3 {
-    margin-top: 40px;
+    margin-top: 20px;
     text-align: center;
 } 
 
@@ -201,8 +201,8 @@ table td {
 
 
 
-/**********************     NORMAL       ********************************/
-div#botaoNormal {
+/**********************     NORMAL e UNIFORME      ********************************/ 
+div#botaoNormal, div#botaoUniforme {
     margin: 20px;
     width: 95%;
     display: flex;
@@ -247,7 +247,9 @@ div#inputProb input {
 }
 
 div#inputProb input#valorMenor, 
-div#inputProb input#valorMaior {
+div#inputProb input#valorMaior,
+div#inputProb input#valorMenorUniforme, 
+div#inputProb input#valorMaiorUniforme {
     width: 99%;
 }
 

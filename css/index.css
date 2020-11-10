@@ -244,6 +244,23 @@ a:hover{
 	color: #4d1717;
 }
 
+a#convidado {
+	text-align: center;
+	animation: animate 2s linear infinite;
+}
+
+
+@keyframes animate {
+	50% {
+		color: #4d1717;
+		text-shadow: 0 0 10px #999,
+					 0 0 20px #999,
+					 0 0 40px #666,
+					 0 0 80px #3f3f3f;
+	}
+}
+
+
 .btn{
 	display: block;
 	width: 100%;

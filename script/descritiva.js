@@ -48,7 +48,8 @@ function botaoClique() {
             return a - b;
         });
         organizar_numero
-        organizar_string.sort()
+        quickSort(organizar_string) // USANDO ALGORITMO DE ORDENAÇÃO
+        //organizar_string.sort()
         let aux = vetor_final.length
         vetor_final.splice(0, aux)
         for (dado of organizar_string) {
@@ -58,7 +59,8 @@ function botaoClique() {
             vetor_final.push(dado)
         }
     } else {
-        vetor_final.sort()
+        quickSort(vetor_final)  // USANDO ALGORITMO DE ORDENAÇÃO
+        //vetor_final.sort()
     }
     // valida dados
     // estes lets ajudam na validação 
@@ -188,16 +190,10 @@ function botaoClique() {
         if (tipo_variavel.selectedIndex == 2) {
             let vetor_aux = []
 
-            function buscaSequencial(lista, valorBusca, fnComp) {
-                for (let i = 0; i < lista.length; i++) {
-                    //Encontrou o que está buscando: retorna a posição
-                    //em que foi encontrado
-                    if (fnComp(lista[i], valorBusca)) return i
-                }
-                return -1 // valorBusca não foi encontrado em lista
-            }
+            
             for (dado of vetor_ordem) {
-                let a = buscaSequencial(vetor_final2, dado, (obj, valor) => obj['nome'] === valor)
+                // USANDO ALGORITMO DE BUSCA
+                let a = buscaSequencial(vetor_final2, dado, (obj, valor) => obj['nome'] === valor) 
                 let help = vetor_final2[a]
                 vetor_aux.push(help)
                 vetor_final2.splice(a, 1)
@@ -415,6 +411,35 @@ function botaoClique() {
 
 
 resultado.addEventListener('click', botaoClique)
+
+// ALGORITMO DE BUSCA
+function buscaSequencial(lista, valorBusca, fnComp) {
+    for (let i = 0; i < lista.length; i++) {
+        //Encontrou o que está buscando: retorna a posição
+        //em que foi encontrado
+        if (fnComp(lista[i], valorBusca)) return i
+    }
+    return -1 // valorBusca não foi encontrado em lista
+}
+
+// ALGORITMO DE ORDENAÇÃO
+function quickSort(vetor, inicio = 0, fim = vetor.length - 1) {
+    if(fim > inicio) {  // Garante que haja, PELO MENOS, DOIS elementos para ordenar
+        let posDiv = inicio - 1
+        let posPivot = fim
+        for(let i = inicio; i < fim; i++) {
+            if(vetor[i] < vetor[posPivot]) {
+                posDiv++
+                [vetor[i], vetor [posDiv]] = [vetor[posDiv], vetor[i]]
+            }
+        }
+        // Último incremento de posDiv, após o loop terminar
+        posDiv++
+        [vetor[posDiv], vetor[posPivot]] = [vetor[posPivot], vetor[posDiv]]
+        quickSort(vetor, inicio, posDiv - 1)    // Lado esquerdo
+        quickSort(vetor, posDiv + 1, fim)       // Lado direito
+    }
+}
 
 function inserir_obj(dado, quantidade) {
     let obj = {
@@ -652,15 +677,6 @@ function tendencia_central(vetordados, tipo_variavel, total) {
     desvio_padrão(vetor_final2,tipo_variavel,total,stringmedia)
 }
 
-function buscaSequencial(lista, valorBusca, fnComp) {
-    for (let i = 0; i < lista.length; i++) {
-        //Encontrou o que está buscando: retorna a posição
-        //em que foi encontrado
-        if (fnComp(lista[i], valorBusca)) return i
-    }
-    return -1 // valorBusca não foi encontrado em lista
-}
-
 // acha a mediana dos 3 primeiros casos
 function achando_mediana(vetordados, total, tipo_variavel) {
     let mediana = []
@@ -715,7 +731,7 @@ function achando_moda(vetordados, vetor_aux2,tipo_variavel) {
     let vezes_do_vetor = vetor_aux2.length
 
     for (let a = 0; a < vezes_do_vetor; a++) {
-
+        // USANDO ALGORITMO DE BUSCA
         let indice_moda = buscaSequencial(vetor_aux2, maior_frequencia, (obj, valor) => obj['valor'] === valor)
 
         if (indice_moda >= 0) {
