@@ -3,7 +3,6 @@
     padding: 0;
     text-decoration: none;
     box-sizing: border-box;
-    /*font-family: 'Poppins', sans-serif; */
 }
   
 header{
@@ -95,7 +94,7 @@ cursor: pointer;
         position: fixed;
         width: 100%;
         max-width: 300px;
-        background: #6b1f1f; /* 172b4d */
+        background: #6b1f1f; 
         top: 90px;
         right: 0;
         display: none;
@@ -126,9 +125,7 @@ cursor: pointer;
   
 
 body {
-    /*display: flex;*/
     justify-content: center;
     align-items: center;
     background: #7c2b2b;
-    /*min-height: 100vh;*/
 }

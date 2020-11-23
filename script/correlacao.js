@@ -1,4 +1,5 @@
 /*********************Correlação ******************************/
+//captura os dados e cria variaveis para se utilizar no contexto global 
 let dadosx = document.getElementById("valorX")
 let dadosy = document.getElementById("valorY")
 const tabela = document.getElementById("tabelasvariaveis")
@@ -11,10 +12,12 @@ resultado.addEventListener('click', botaoClique)
 const limpa_correlacao = document.getElementById('graficoCorrelacao')
 const show3 = document.getElementById('to-top')
 const divFutura = document.getElementById('calculo_correlação')
+let nomeX = document.getElementById('nomeX')
+let nomeY = document.getElementById('nomeY')
 let cont = 0
 var vetx = []
 var vety = []
-
+//função para calcular a correlação 
 function botaoClique() {
 
     if (cont > 0) {
@@ -26,44 +29,46 @@ function botaoClique() {
         }
     }
     cont += 1
-    
+
     // CRIANDO O VETOR X           
     let dados_valoresX = dadosx.value
-    dados_valoresX = dados_valoresX.replace(/,/g, ".")   // Troca a ',' decimal para o '.' decimal
+    dados_valoresX = dados_valoresX.replace(/,/g, ".") // Troca a ',' decimal para o '.' decimal
     let vetor1 = dados_valoresX.split(tira_espaco) // Tira os espaços entre os ";"         
     let vetorX = vetor1.filter(x => x.trim()) // Remove itens vazios do vetor
     // CRIANDO O VETOR Y           
     let dados_valoresY = dadosy.value
-    dados_valoresY = dados_valoresY.replace(/,/g, ".")   // Troca a ',' decimal para o '.' decimal
+    dados_valoresY = dados_valoresY.replace(/,/g, ".") // Troca a ',' decimal para o '.' decimal
     let vetor2 = dados_valoresY.split(tira_espaco) // Tira os espaços entre os ";"         
     let vetorY = vetor2.filter(x => x.trim()) // Remove itens vazios do vetor
-    
+
     // Muda os elemtos do vetorX para Number
-    let aux = [];	
-	for(let i = 0; i < vetorX.length; i++){
-		aux[i] = isNaN(vetorX[i]) ? 0 : 1;
-	}	
-	if(aux.indexOf(0) == -1 && aux.indexOf(1) == 0){
-		for(let i = 0; i < vetorX.length; i++){
-			vetorX[i] = parseFloat(vetorX[i]);
-		}		
+    let aux = [];
+    for (let i = 0; i < vetorX.length; i++) {
+        aux[i] = isNaN(vetorX[i]) ? 0 : 1;
+    }
+    if (aux.indexOf(0) == -1 && aux.indexOf(1) == 0) {
+        for (let i = 0; i < vetorX.length; i++) {
+            vetorX[i] = parseFloat(vetorX[i]);
+        }
     }
     // Muda os elemtos do vetorY para Number
-    let aux1 = [];	
-	for(let i = 0; i < vetorY.length; i++){
-		aux1[i] = isNaN(vetorY[i]) ? 0 : 1;
-	}	
-	if(aux1.indexOf(0) == -1 && aux1.indexOf(1) == 0){
-		for(let i = 0; i < vetorY.length; i++){
-			vetorY[i] = parseFloat(vetorY[i]);
-		}		
-	}
+    let aux1 = [];
+    for (let i = 0; i < vetorY.length; i++) {
+        aux1[i] = isNaN(vetorY[i]) ? 0 : 1;
+    }
+    if (aux1.indexOf(0) == -1 && aux1.indexOf(1) == 0) {
+        for (let i = 0; i < vetorY.length; i++) {
+            vetorY[i] = parseFloat(vetorY[i]);
+        }
+    }
 
 
-
+    //verifica se tem string nos dados coletados 
     let validacaoX = temString(vetorX)
     let validacaoY = temString(vetorY)
     let podeseguir = true
+    //validação dos dados
+    //se tiver string os dados estão incorretos
     if (validacaoX) {
         Swal.fire({
             icon: "error",
@@ -84,7 +89,9 @@ function botaoClique() {
             } // Coloca o cursor no elemento especificado
         })
         podeseguir = false
-    } else if (vetorY.length > vetorX.length || vetorY.length < vetorX.length) {
+    }
+    //verifica se há mesma quantidade de dados tanto do x quanto de y
+    else if (vetorY.length > vetorX.length || vetorY.length < vetorX.length) {
         Swal.fire({
             icon: "error",
             title: "A quantidade de elementos de X e Y devem ser iguais",
@@ -94,7 +101,9 @@ function botaoClique() {
             } // Coloca o cursor no elemento especificado
         })
         podeseguir = false
-    } else if (validacaoX == "falta") {
+    }
+    //verifica se tem dados no x
+    else if (validacaoX == "falta") {
         Swal.fire({
             icon: "error",
             title: "Insira os dados de X",
@@ -104,7 +113,9 @@ function botaoClique() {
             } // Coloca o cursor no elemento especificado
         })
         podeseguir = false
-    } else if (validacaoY == "falta") {
+    }
+    //verifica se tem dados no y 
+    else if (validacaoY == "falta") {
         Swal.fire({
             icon: "error",
             title: "Insira os dados de Y",
@@ -114,7 +125,9 @@ function botaoClique() {
             } // Coloca o cursor no elemento especificado
         })
         podeseguir = false
-    } else if (vetorX.length < 2 || vetorY.length < 2) {
+    } 
+    //verifica se existe pelo menos 2 elementos em cada
+    else if (vetorX.length < 2 || vetorY.length < 2) {
         Swal.fire({
             icon: "error",
             title: "A quantidade minima de Xs e de Ys é de 2 cada e o ideal são no minimo 15 valores cada",
@@ -126,15 +139,20 @@ function botaoClique() {
         podeseguir = false
 
 
-    } else if (podeseguir) {
+    }
+    //se não faltar dados pode seguir os calculos
+    else if (podeseguir) {
+        //coloca em um unico vetor os dados x e y e ainda faz as contas basicas
         for (let i = 0; i < vetorX.length; i++) {
             inserir_obj(vetorX[i], vetorY[i])
         }
+        // cria as variaveis de somatoria dos dados
         let somatoriaX = 0
         let somatoriaY = 0
         let somatoriaYaoquadrado = 0
         let somatoriaXaoquadrado = 0
         let somatoriaXY = 0
+        //faz a somatoria dos dados
         for (conteudo of vetorcomobj) {
             somatoriaX += conteudo.X
             somatoriaY += conteudo.Y
@@ -142,8 +160,8 @@ function botaoClique() {
             somatoriaXaoquadrado += conteudo.Xaoquadrado
             somatoriaXY += conteudo.XY
         }
-        let n = vetorcomobj.length
-
+        let n = vetorcomobj.length//o tamanho do vetor informa a quantidade de dados
+        //realiza os calculos 
         let numerador_ra = (n * somatoriaXY) - (somatoriaX * somatoriaY)
         let tcdenominador_ra = ((n * somatoriaXaoquadrado) - (somatoriaX ** 2)) //termo em comun do denominador de r e a 
         let denominador_r = (tcdenominador_ra ** (1 / 2) * ((n * somatoriaYaoquadrado) - (somatoriaY ** 2)) ** (1 / 2))
@@ -153,9 +171,7 @@ function botaoClique() {
         let r_percentual = (r * 100).toFixed(2)
         let nivel_de_correlacao
 
-
-
-
+        console.log(r)
         //correlação entre as duas variaveis
         if (r > 0) {
             if (r < 0.30) {
@@ -164,7 +180,7 @@ function botaoClique() {
                 nivel_de_correlacao = "Moderada positiva"
             } else if (r >= 0.70 && r < 1) {
                 nivel_de_correlacao = "Forte positiva"
-            } else if (r == 1) {
+            } else if (r >= 1) {
                 nivel_de_correlacao = "Perfeita positiva"
             }
         } else if (r < 0) {
@@ -174,7 +190,7 @@ function botaoClique() {
                 nivel_de_correlacao = "Moderada negativa"
             } else if (r <= -0.70 && r > -1) {
                 nivel_de_correlacao = "Forte negativa"
-            } else if (r == -1) {
+            } else if (r <= -1) {
                 nivel_de_correlacao = "Perfeita negativa"
             }
         } else if (r == 0) {
@@ -230,12 +246,12 @@ function botaoClique() {
         let divValorFuturo
         divValorFuturo = "<div id='calculo_correlação2' class='inputFuturo'>"
         divValorFuturo += "<h3 class='h3-futuro'>Valores Futuros</h3>"
-        divValorFuturo +="<label class='label-futuro'>X:</label>"
+        divValorFuturo += "<label class='label-futuro'>X:</label>"
         divValorFuturo += "<input type='text' id='valor_futuroX' onkeyup='completarValorFuturo(this.value, 1, a, b);' placeholder='Valor Futuro de X'></input>"
-        divValorFuturo +="<label class='label-futuro'>Y:</label>"
+        divValorFuturo += "<label class='label-futuro'>Y:</label>"
         divValorFuturo += "<input type='text' id='valor_futuroY' onkeyup='completarValorFuturo(this.value, 2, a, b);' placeholder='Valor Futuro de Y'></input>"
-        divValorFuturo += "</div>"        
-        divFutura.innerHTML = divValorFuturo               
+        divValorFuturo += "</div>"
+        divFutura.innerHTML = divValorFuturo
 
         // Criando gráfico
         limpa_correlacao.classList.remove("correlacao")
@@ -250,7 +266,7 @@ function botaoClique() {
     }
 }
 
-
+//função para descobrir se tem string ou se os dados estão vazios 
 function temString(vetor_final) {
     let conta_numero = 0
     let conta_string = 0
@@ -267,7 +283,7 @@ function temString(vetor_final) {
     else if (conta_numero == 0) return "falta"
     else return false
 }
-
+//cria o vetor com os dados e com alguns pré calculos
 function inserir_obj(x, y) {
     let obj = {
         X: Number(x),
@@ -280,21 +296,27 @@ function inserir_obj(x, y) {
 }
 
 // Função para arredondamento
-function arredondar(num,n){
-    return parseFloat(Math.round(num * Math.pow(10, n)) /Math.pow(10,n)).toFixed(n)
+function arredondar(num, n) {
+    return parseFloat(Math.round(num * Math.pow(10, n)) / Math.pow(10, n)).toFixed(n)
 }
 
 // Função para Valor Futuro
-function completarValorFuturo(valor, escolha, a, b){
-    if(escolha == 1){
-        $('#valor_futuroY').val(parseFloat(arredondar(parseFloat(a) * parseFloat(valor) + parseFloat(b),2)));
-    } else if(escolha == 2){
-        $('#valor_futuroX').val(parseFloat(arredondar((parseFloat(valor) - parseFloat(b)) / parseFloat(a),2)));
+function completarValorFuturo(valor, escolha, a, b) {
+    if (escolha == 1) {
+        $('#valor_futuroY').val(parseFloat(arredondar(parseFloat(a) * parseFloat(valor) + parseFloat(b), 2)));
+    } else if (escolha == 2) {
+        $('#valor_futuroX').val(parseFloat(arredondar((parseFloat(valor) - parseFloat(b)) / parseFloat(a), 2)));
     }
 }
 
 /********************   GRAFICO CORRELAÇÃO   *********************/
-function graficoCorrelacao(vetor_X, vetor_Y, a, b){	    
+function graficoCorrelacao(vetor_X, vetor_Y, a, b) {
+    if (nomeX.value == '') {
+        nomeX.value = 'Valores em X'
+    }
+    if (nomeY.value == '') {
+        nomeY.value = 'Valores em Y'
+    }
     let x = vetor_X
     var y = vetor_Y
     let ymin, ymax, xmin, xmax
@@ -311,41 +333,41 @@ function graficoCorrelacao(vetor_X, vetor_Y, a, b){
         if (parseInt(y[i]) > ymax) ymax = parseInt(y[i])
         if (parseInt(y[i]) < ymin) ymin = parseInt(y[i])
     }
-    
-    let vetor_X_Sort = vetor_X.slice();
-    vetor_X_Sort.sort(function(a, b){return a-b})
-		
-	if(vetor_X_Sort[0] * 0.1 > 2){
-		xmin = vetor_X_Sort[0] - 2;
-    } 
-    else {
-		xmin = vetor_X_Sort[0] * 0.9;
-	}	
-	
-	if(vetor_X_Sort[vetor_X_Sort.length-1] * 0.1 > 2){
-		xmax = vetor_X_Sort[vetor_X_Sort.length-1] + 2
-    } 
-    else {
-		xmax = vetor_X_Sort[vetor_X_Sort.length-1] * 1.1
-	}
-	
-	for(let i = 0; i < vetor_X.length; i++){
-		let obs = []
-		obs.push(vetor_X[i])
-		obs.push(vetor_Y[i])
-		observacoes.push(obs)
-	}
-	
-	vetor_X_Sort.unshift(limiteMin)
-	vetor_X_Sort.push(limiteMax)
-	for(let i = 0; i < vetor_X_Sort.length; i++){
-		let point = []
-		point.push(vetor_X_Sort[i])
-		point.push(parseFloat(arredondar(parseFloat(a) * vetor_X_Sort[i] + parseFloat(b),2)))
-		regressao.push(point)
-	}
 
-	var MyChart = Highcharts.chart('graficoCorrelacao', {
+    let vetor_X_Sort = vetor_X.slice();
+    vetor_X_Sort.sort(function (a, b) {
+        return a - b
+    })
+
+    if (vetor_X_Sort[0] * 0.1 > 2) {
+        xmin = vetor_X_Sort[0] - 2;
+    } else {
+        xmin = vetor_X_Sort[0] * 0.9;
+    }
+
+    if (vetor_X_Sort[vetor_X_Sort.length - 1] * 0.1 > 2) {
+        xmax = vetor_X_Sort[vetor_X_Sort.length - 1] + 2
+    } else {
+        xmax = vetor_X_Sort[vetor_X_Sort.length - 1] * 1.1
+    }
+
+    for (let i = 0; i < vetor_X.length; i++) {
+        let obs = []
+        obs.push(vetor_X[i])
+        obs.push(vetor_Y[i])
+        observacoes.push(obs)
+    }
+
+    vetor_X_Sort.unshift(limiteMin)
+    vetor_X_Sort.push(limiteMax)
+    for (let i = 0; i < vetor_X_Sort.length; i++) {
+        let point = []
+        point.push(vetor_X_Sort[i])
+        point.push(parseFloat(arredondar(parseFloat(a) * vetor_X_Sort[i] + parseFloat(b), 2)))
+        regressao.push(point)
+    }
+
+    var MyChart = Highcharts.chart('graficoCorrelacao', {
         chart: {
             type: 'scatter',
             backgroundColor: '#DCDCDC',
@@ -362,62 +384,100 @@ function graficoCorrelacao(vetor_X, vetor_Y, a, b){
                 textDecoration: 'underline'
             },
             y: 40
-		},
-		xAxis: {
-				title: {
-				enabled: true,
-                text: 'Valores em X',
+        },
+        xAxis: {
+            title: {
+                enabled: true,
+                text: nomeX.value,
                 style: {
                     color: '#000'
                 }
-			},
-			startOnTick: false,
-			endOnTick: false,
-			showLastLabel: true,
-			min: xmin,
-			max: xmax
-		},
-		yAxis: {
-			title: {
-                text: 'Valores em Y',
+            },
+            startOnTick: false,
+            endOnTick: false,
+            showLastLabel: true,
+            min: xmin,
+            max: xmax
+        },
+        yAxis: {
+            title: {
+                enabled: true,
+                text: nomeY.value,
                 style: {
                     color: '#000'
                 }
             },
             min: ymin,
             max: ymax
-		},
-		series: [{
-			type: 'scatter',
-			name: 'Pontos',
-			color: '#4D1717',
+        },
+        series: [{
+            type: 'scatter',
+            name: 'Pontos',
+            color: '#4D1717',
             data: observacoes,
             marker: {
                 radius: 5
             }
-		},{
-			type: 'line',
+        }, {
+            type: 'line',
             name: 'Reta de Regressão',
             color: '#4D1717',
-			data: regressao,
-			marker: {
-				enabled: false
-			},
-			states: {
-				hover: {
-					lineWidth: 0
-				}
-			},
-			enableMouseTracking: false
-		}]
-	});
-	
+            data: regressao,
+            marker: {
+                enabled: false
+            },
+            states: {
+                hover: {
+                    lineWidth: 0
+                }
+            },
+            enableMouseTracking: false
+        }]
+    });
+
 }
 /*****************************************************************/
 
+/***************BOTÃO DE UPLOAD DE ARQUIVO*******************/
+let btn_upload = document.getElementById('btn-upload-csv').addEventListener('click', () => {
+    Papa.parse(document.getElementById('upload-csv').files[0], {
+        download: true,
+        header: true,
+        encoding: "ISO-8859-1",
+        complete: function(results) {
+            console.log(results)  
+            results.data.map((data, index) => {
+                let dadosx = document.getElementById("valorX")
+                gerarDadosX(dadosx, data)
+                let dadosy = document.getElementById("valorY")
+                gerarDadosY(dadosy, data)
+            })
+        }
+    })
+})
+function gerarDadosX(dados, data) {
+    let cont = 0
+    for(let i in data) {
+        cont++
+        if (cont == 1) {
+            dados.value += data[i] + ';' 
+        }                
+    }
+}
+function gerarDadosY(dados, data) {
+    let cont = 0
+    for(let i in data) {
+        cont++
+        if (cont == 2) {
+            dados.value += data[i] + ';' 
+        }                
+    }
+}
+/************************************************************/
+
 
 /*****************BOTÃO DE LIMPAR DADOS********************/
-function botaoApagar() { 
+function botaoApagar() {
     vetorcomobj.splice(0)
     vetx.splice(0)
     vety.splice(0)
@@ -426,9 +486,15 @@ function botaoApagar() {
     }
     dadosx.value = ''
     dadosy.value = ''
+    nomeX.value = ''
+    nomeY.value = ''
     limpa_correlacao.classList.add("correlacao")
     const divFutura2 = document.getElementById('calculo_correlação2')
     divFutura2.classList.add("esconder")
+    const divGrafico = document.getElementById("grafico")
+    const tabela2 = document.querySelector(".highcharts-data-table")
+    divGrafico.removeChild(tabela2)
+    
 }
 /************************************************************/
 
@@ -444,60 +510,3 @@ window.addEventListener("scroll", () => {
     }
 })
 /************************************************************/
-/*
-let fileInput = document.getElementById('csvFileInput')
-fileInput.addEventListener('change', function() {
-    readXlsxFile(fileInput.files[0]).then(function() {
-        console.log(data)
-    })
-})
-*/
-
-/*
-let attendeesArray = []
-
-
-function handleFiles(files) {
-    // Check for the various File API support.
-    if (window.FileReader) {
-        // FileReader are supported.
-        getAsText(files[0]);
-    } else {
-        alert('FileReader are not supported in this browser.');
-    }
-}
-
-function getAsText(fileToRead) {
-    var reader = new FileReader();
-    // Read file into memory as UTF-8      
-    reader.readAsText(fileToRead);
-    // Handle errors load
-    reader.onload = loadHandler;
-    reader.onerror = errorHandler;
-}
-
-function loadHandler(event) {
-    var csv = event.target.result;
-    processData(csv);
-}
-
-function processData(csv) {
-    let allTextLines = csv.split(/\r\n|\n/);
-    
-    for (let i=0; i < allTextLines.length; i++) {
-        let row = allTextLines[i].split(';');
-        var col = [];
-        for (let j=0; j < row.length; j++) {
-            col.push(row[j]);
-        }
-        attendeesArray.push(col)
-    }
-    console.log(attendeesArray);
-}
-
-function errorHandler(evt) {
-    if(evt.target.error.name == "NotReadableError") {
-        alert("Canno't read file !");
-    }
-}
-*/

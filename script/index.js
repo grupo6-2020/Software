@@ -1,4 +1,4 @@
-//  EFEITOS NOS INPUTS
+//  EFEITOS NOS INPUTS DO LOGIN
 const inputs = document.querySelectorAll(".input");
 
 function addcl(){

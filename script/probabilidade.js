@@ -2,18 +2,18 @@
 /*********************      DISTRIBUIÇÃO BINOMIAL       ****************************/
 /***********************************************************************************/
 
-//Captura de dados
-let total = document.getElementById('total')
-let sucesso = document.getElementById('sucesso')
-let falha = document.getElementById("falha")
-let k = document.getElementById("evento")
-let vetor_final_evento = []
+//Captura de dados da distriuição binomial
+let total = document.getElementById('total') //captura o total de elementos digitado 
+let sucesso = document.getElementById('sucesso') //captura o sucesso do evento acontecer digitado 
+let falha = document.getElementById("falha") //captura a falha do evento acontecer digitado 
+let k = document.getElementById("evento") //captura os eventos desejados
+let vetor_final_evento = [] //vetor para se trabalhar com o evento 
 let tira_espaco = /\s*;\s*/; // Tira os espaços entre os ";"
-const resultado = document.getElementById("button")
-const tabela = document.getElementById('tabelasvariaveis')
+const resultado = document.getElementById("button") //captura quando o botão for precionado 
+const tabela = document.getElementById('tabelasvariaveis') //tabela que ira exibir os resultados 
 let cont = 0
 const show3 = document.getElementById('to-top')
-
+//função que ira calcular e exibir o resultado 
 function botaoClique() {
     if (cont > 0) {
         vetor_final_evento.splice(0)
@@ -24,16 +24,17 @@ function botaoClique() {
     }
     cont += 1
 
-    let n = parseFloat(total.value)
-    let p = parseFloat(sucesso.value)
-    let q = parseFloat(falha.value)
+    let n = parseFloat(total.value) //pega o valor digitado e transforma em numeros
+    let p = parseFloat(sucesso.value) //pega o valor digitado e transforma em numeros
+    let q = parseFloat(falha.value) //pega o valor digitado e transforma em numeros
     // CRIANDO O VETOR            
     let evento = k.value
     let vetor1 = evento.split(tira_espaco) // Tira os espaços entre os ";"         
     let vetor_final = vetor1.filter(x => x.trim()) // Remove itens vazios do vetor
-    // Coloca em ordem
-    let conta_numero = 0
-    let conta_string = 0
+    //variaveis para ajudar na validação dos dados
+    let conta_numero = 0 // ira informar se tem numeros 
+    let conta_string = 0 // ira informar se tiver strings 
+    // faz a contagem dos tipos de variavel
     for (conteudo of vetor_final) {
         let descubra = Number(conteudo)
 
@@ -55,17 +56,20 @@ function botaoClique() {
     // valida dados
     // estes lets ajudam na validação 
     let podeseguir = true
+    //verifica se o total foi preenchido
     if (total.value.trim() == '') {
         Swal.fire({
             icon: "error",
             title: "O 'Total(n)' deve ser preenchido!",
             text: "",
             didClose: () => {
-                total.focus()
-            } // Coloca o cursor no elemento especificado
+                total.focus() // Coloca o cursor no elemento especificado
+            }
         })
         podeseguir = false
-    } else if (sucesso.value.trim() == '') {
+    }
+    //verifica se o sucesso foi preenchido
+    else if (sucesso.value.trim() == '') {
         Swal.fire({
             icon: "error",
             title: "O 'Sucesso(p)' deve ser preenchido!",
@@ -75,7 +79,9 @@ function botaoClique() {
             } // Coloca o cursor no elemento especificado
         })
         podeseguir = false
-    } else if (vetor_final[0] === undefined) {
+    }
+    //verifica se os eventos foi preenchido
+    else if (vetor_final[0] === undefined) {
         Swal.fire({
             icon: "error",
             title: "O 'Evento(k)' deve ser preenchido!",
@@ -85,7 +91,9 @@ function botaoClique() {
             } // Coloca o cursor no elemento especificado
         })
         podeseguir = false
-    } else if (conta_string > 0) {
+    }
+    //verifica se os eventos foi preenchido sem strings 
+    else if (conta_string > 0) {
         Swal.fire({
             icon: "error",
             title: "O 'Evento(k)' não pode conter letras!",
@@ -95,7 +103,9 @@ function botaoClique() {
             } // Coloca o cursor no elemento especificado
         })
         podeseguir = false
-    } else {
+    }
+    //verifica se todos os eventos estão dentro do total 
+    else {
         for (valor of vetor_final) {
             if (valor > n) {
                 podeseguir = false
@@ -114,19 +124,22 @@ function botaoClique() {
 
     // se não faltar dado o programa continua 
     if (podeseguir) {
+        //cria um objeto e coloca em um vetor
         for (dado of vetor_final) {
-            inserir_obj(dado)
+            inserir_obj(dado) //chama a função que faz o objeto
         }
 
-
+        // convert os dados para decimal para realizar as contas
         let sucesso_final = p / 100
         let falha_final = q / 100
+        //cria um objeto com o valor do total e seu fatorial 
         let total_final = {
             valor: n,
-            fatorial: calculo_fatorial(n)
+            fatorial: calculo_fatorial(n) //chama a função de calcular o fatorial 
         }
 
-        let probabilidade_acumulada = 0
+        let probabilidade_acumulada = 0 // ira armazenar a probabilidade dos eventos e somando eles
+        //calcula todas as probabilidades e acuula os valores
         for (a = 0; a < vetor_final_evento.length; a++) {
             let nk = calculo_fatorial(total_final['valor'] - vetor_final_evento[a]['valor'])
             let denominador_combinatorio = nk * Number(vetor_final_evento[a]['fatorial'])
@@ -136,10 +149,10 @@ function botaoClique() {
             let probabilidade = analise_combinatoria * pek * qenk
             probabilidade_acumulada += probabilidade
         }
-        probabilidade_acumulada *= 100
-        let media = total_final['valor'] * sucesso_final
-        let variancia = media * falha_final
-        let desvio_padrao = variancia ** (1 / 2)
+        probabilidade_acumulada *= 100 // converte a probabilidade achada de decimal para porcentagem 
+        let media = total_final['valor'] * sucesso_final // calcula a media
+        let variancia = media * falha_final //calcula a variancia
+        let desvio_padrao = variancia ** (1 / 2) // calcula o desvio padrão 
 
 
 
@@ -202,16 +215,16 @@ function botaoClique() {
 }
 
 
-resultado.addEventListener('click', botaoClique)
-
+resultado.addEventListener('click', botaoClique) // informa quando o botão foi clicado e chama a função botaoClique
+// função para criar o vetor com objeto com o valor e seu fatorial
 function inserir_obj(dado) {
     let obj = {
-        valor: Number(dado),
-        fatorial: calculo_fatorial(dado)
+        valor: Number(dado), //converte para numero o evento,
+        fatorial: calculo_fatorial(dado) // chama a função de calcular o fatorial
     }
     vetor_final_evento.push(obj)
 }
-
+//função para calcular fatorial 
 function calculo_fatorial(valor) {
     let fatorial = 1
 
@@ -232,11 +245,11 @@ function calculo_fatorial(valor) {
 /***********************************************************************************/
 /**********************      DISTRIBUIÇÃO NORMAL       *****************************/
 /***********************************************************************************/
-let dadoNormal_menor
-let dadoNormal_entre
-let dadoNormal_maior
+let dadoNormal_menor = false // informa se é do tipo menor
+let dadoNormal_entre = false // informa se é do tipo entre um intervalo
+let dadoNormal_maior = false// informa se é do tipo maior 
 const limpa_gauss = document.getElementById('graficoGauss')
-
+//função para descobrir qual tipo a variavel ira usar e alterar a entrada de dados 
 function mudarNormal(tipo) {
     if (tipo == 1) {
         document.getElementById('valorMenor').style.display = 'inline-block'
@@ -246,8 +259,6 @@ function mudarNormal(tipo) {
         dadoNormal_menor = true
         dadoNormal_entre = false
         dadoNormal_maior = false
-
-
     }
     if (tipo == 2) {
         document.getElementById('valorMenor').style.display = 'none'
@@ -270,10 +281,7 @@ function mudarNormal(tipo) {
 }
 
 
-
-//Cálculos
-
-
+//captura dos dados digitados
 let media = document.getElementById('media')
 let desvioPadrao = document.getElementById('desvioPadrao')
 let valorMenor = document.getElementById('valorMenor')
@@ -282,10 +290,10 @@ let entreAte = document.getElementById('entreAte')
 let valorMaior = document.getElementById('valorMaior')
 const resultado2 = document.getElementById('button2')
 
-resultado2.addEventListener('click', botaoClique2)
+resultado2.addEventListener('click', botaoClique2) //chama a função botaoClique2 quando o botão for clicado 
 
 
-
+//calcula a distribuição normal 
 function botaoClique2() {
     if (cont > 0) {
         //vetor_final_x.splice(0)
@@ -318,35 +326,115 @@ function botaoClique2() {
             } // Coloca o cursor no elemento especificado
         })
 
-    } else if (podeseguir) {
+    } 
+    else if (media.value.trim() == '') {
+        Swal.fire({
+            icon: "error",
+            title: "A média da variável deve ser preenchido!", 
+            text: "",
+            didClose: () => {
+            media.focus()} // Coloca o cursor no elemento especificado
+        }) 
+        podeseguir = false
+    }
+    else if (desvioPadrao.value.trim() == '') {
+        Swal.fire({
+            icon: "error",
+            title: "O desvio padrão da variável deve ser preenchido!", 
+            text: "",
+            didClose: () => {
+            desvioPadrao.focus()} // Coloca o cursor no elemento especificado
+        }) 
+        podeseguir = false
+    }
+    else if (valorMenor.value.trim() == '' && dadoNormal_menor == true) {
+        Swal.fire({
+            icon: "error",
+            title: "Digite o valor menor que!", 
+            text: "",
+            didClose: () => {
+            valorMenor.focus()} // Coloca o cursor no elemento especificado
+        }) 
+        podeseguir = false
+    }
+    else if (valorMaior.value.trim() == '' && dadoNormal_maior == true) {
+        Swal.fire({
+            icon: "error",
+            title: "Digite o valor maior que!", 
+            text: "",
+            didClose: () => {
+            valorMaior.focus()} // Coloca o cursor no elemento especificado
+        }) 
+        podeseguir = false
+    }
+    else if (entreDe.value.trim() == '' && dadoNormal_entre == true) {
+        Swal.fire({
+            icon: "error",
+            title: "Digite o valor entre de que!", 
+            text: "",
+            didClose: () => {
+            entreDe.focus()} // Coloca o cursor no elemento especificado
+        }) 
+        podeseguir = false
+    }
+    else if (entreAte.value.trim() == '' && dadoNormal_entre == true) {
+        Swal.fire({
+            icon: "error",
+            title: "Digite o valor entre até que!", 
+            text: "",
+            didClose: () => {
+            entreAte.focus()} // Coloca o cursor no elemento especificado
+        }) 
+        podeseguir = false
+    }
+    else if (dadoNormal_entre == false && dadoNormal_maior == false && dadoNormal_menor == false) {
+        Swal.fire({
+            icon: "error",
+            title: "Esolha o tipo de valor!", 
+            text: "",
+            didClose: () => {
+            } // Coloca o cursor no elemento especificado
+        }) 
+        podeseguir = false
+    }
+    else if (podeseguir) {
         //EntreDe, Até..
         if (dadoNormal_entre) {
+            //se o intervalo for entre menor que a media e maior que a media
             if (eDe < m && eAte > m) {
-                z_1 = ((m - eDe) / dp).toFixed(2)
-                z_2 = ((eAte - m) / dp).toFixed(2)
-                areaDe = tabela_normal(z_1)
-                areaAte = tabela_normal(z_2)
-                probabilidade = (areaDe + areaAte) * 100
-            } else if (eDe < m && eAte < m) {
-                z_1 = ((m - eDe) / dp).toFixed(2)
-                z_2 = ((m - eAte) / dp).toFixed(2)
-                areaDe = tabela_normal(z_1)
-                areaAte = tabela_normal(z_2)
-                probabilidade = (areaDe - areaAte) * 100
-            } else if (eDe > m && eAte > m) {
-                z_1 = ((eDe - m) / dp).toFixed(2)
-                z_2 = ((eAte - m) / dp).toFixed(2)
-                areaDe = tabela_normal(z_1)
-                areaAte = tabela_normal(z_2)
-                probabilidade = (areaAte - areaDe) * 100
-            } else if (eDe < m && eAte == m) {
-                z_1 = ((m - eDe) / dp).toFixed(2)
-                areaDe = tabela_normal(z_1)
-                probabilidade = areaDe * 100
-            } else if (eDe == m && eAte > m) {
-                z_1 = ((eAte - m) / dp).toFixed(2)
-                areaAte = tabela_normal(z_1)
-                probabilidade = areaAte * 100
+                z_1 = ((m - eDe) / dp).toFixed(2) // calcula o score Z
+                z_2 = ((eAte - m) / dp).toFixed(2) // calcula o score Z
+                areaDe = tabela_normal(z_1) //chama a função que dara a area do score z calculado
+                areaAte = tabela_normal(z_2) //chama a função que dara a area do score z calculado
+                probabilidade = (areaDe + areaAte) * 100 // calcula a probabilida conforme o tipo
+            }
+            //se o intervalo estiver antes da media 
+            else if (eDe < m && eAte < m) {
+                z_1 = ((m - eDe) / dp).toFixed(2) // calcula o score Z
+                z_2 = ((m - eAte) / dp).toFixed(2) // calcula o score Z
+                areaDe = tabela_normal(z_1) //chama a função que dara a area do score z calculado
+                areaAte = tabela_normal(z_2) //chama a função que dara a area do score z calculado
+                probabilidade = (areaDe - areaAte) * 100 // calcula a probabilida conforme o tipo
+            }
+            //se o intervalo estiver depois da media 
+            else if (eDe > m && eAte > m) {
+                z_1 = ((eDe - m) / dp).toFixed(2) // calcula o score Z
+                z_2 = ((eAte - m) / dp).toFixed(2) // calcula o score Z
+                areaDe = tabela_normal(z_1) //chama a função que dara a area do score z calculado
+                areaAte = tabela_normal(z_2) //chama a função que dara a area do score z calculado
+                probabilidade = (areaAte - areaDe) * 100 // calcula a probabilida conforme o tipo
+            }
+            //se o intervalo estiver menor que a media e na media 
+            else if (eDe < m && eAte == m) {
+                z_1 = ((m - eDe) / dp).toFixed(2) // calcula o score Z
+                areaDe = tabela_normal(z_1) //chama a função que dara a area do score z calculado
+                probabilidade = areaDe * 100 // calcula a probabilida conforme o tipo
+            }
+            //se o intervalo estiver entre a media e maior que a media 
+            else if (eDe == m && eAte > m) {
+                z_1 = ((eAte - m) / dp).toFixed(2) // calcula o score Z
+                areaAte = tabela_normal(z_1) //chama a função que dara a area do score z calculado
+                probabilidade = areaAte * 100 // calcula a probabilida conforme o tipo
             }
             area1 = eDe
             area2 = eAte
@@ -354,15 +442,20 @@ function botaoClique2() {
 
         // Valor Maior
         if (dadoNormal_maior) {
+            //se o dado for maior que a media
             if (vMaior > m) {
-                z_1 = ((vMaior - m) / dp).toFixed(2)
-                areaMaior = tabela_normal(z_1)
-                probabilidade = (0.5 - areaMaior) * 100
-            } else if (vMaior < m) {
-                z_1 = ((m - vMaior) / dp).toFixed(2)
-                areaMaior = tabela_normal(z_1)
-                probabilidade = (0.5 + areaMaior) * 100
-            } else if (vMaior == m) {
+                z_1 = ((vMaior - m) / dp).toFixed(2) // calcula o score Z
+                areaMaior = tabela_normal(z_1) //chama a função que dara a area do score z calculado
+                probabilidade = (0.5 - areaMaior) * 100 // calcula a probabilida conforme o tipo
+            }
+            //se o dado estiver antes da media
+            else if (vMaior < m) {
+                z_1 = ((m - vMaior) / dp).toFixed(2) // calcula o score Z
+                areaMaior = tabela_normal(z_1) //chama a função que dara a area do score z calculado
+                probabilidade = (0.5 + areaMaior) * 100 // calcula a probabilida conforme o tipo
+            }
+            //se o dado for igual a media
+            else if (vMaior == m) {
                 z_1 = 0.5
                 probabilidade = 50
             }
@@ -371,16 +464,21 @@ function botaoClique2() {
         }
 
         //Valor Menor
-        if (dadoNormal_menor) {
+        if (dadoNormal_menor) { // calcula a probabilida conforme o tipo
+            //Se o valor estiver antes da media
             if (vMenor < m) {
-                z_1 = ((m - vMenor) / dp).toFixed(2)
-                areaMenor = tabela_normal(z_1)
-                probabilidade = (0.5 - areaMenor) * 100
-            } else if (vMenor > m) {
-                z_1 = ((vMenor - m) / dp).toFixed(2)
-                areaMenor = tabela_normal(z_1)
-                probabilidade = (areaMenor + 0.5) * 100
-            } else if (vMenor == m) {
+                z_1 = ((m - vMenor) / dp).toFixed(2) // calcula o score Z
+                areaMenor = tabela_normal(z_1) //chama a função que dara a area do score z calculado
+                probabilidade = (0.5 - areaMenor) * 100 // calcula a pro// calcula a probabilida conforme o tipobabilida conforme o tipo
+            }
+            //se o valor estiver depois da media
+            else if (vMenor > m) {
+                z_1 = ((vMenor - m) / dp).toFixed(2) // calcula o score Z
+                areaMenor = tabela_normal(z_1) //chama a função que dara a area do score z calculado
+                probabilidade = (areaMenor + 0.5) * 100 // calcula a probabilida conforme o tipo
+            }
+            //se o valor for igual a media 
+            else if (vMenor == m) {
                 z_1 = 0.5
                 probabilidade = 50
             }
@@ -419,10 +517,11 @@ function botaoClique2() {
         scrollTop: 2000
     }, 0);
 }
-
+//tabela normal para achar o score z
 function tabela_normal(z) {
 
-    let distribuicao_normal = [0.0000, 0.0040, 0.0080, 0.0120, 0.0160, 0.0199, 0.0239, 0.0279, 0.0319, 0.0359,
+    let distribuicao_normal = [
+        0.0000, 0.0040, 0.0080, 0.0120, 0.0160, 0.0199, 0.0239, 0.0279, 0.0319, 0.0359,
         0.0398, 0.0438, 0.0478, 0.0517, 0.0557, 0.0596, 0.0636, 0.0675, 0.0714, 0.0753,
         0.0793, 0.0832, 0.0871, 0.0910, 0.0948, 0.0987, 0.1026, 0.1064, 0.1103, 0.1141,
         0.1179, 0.1217, 0.1255, 0.1293, 0.1331, 0.1368, 0.1406, 0.1443, 0.1480, 0.1517,
@@ -463,9 +562,12 @@ function tabela_normal(z) {
         0.4999, 0.4999, 0.4999, 0.4999, 0.4999, 0.4999, 0.4999, 0.4999, 0.4999, 0.4999,
         0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000,
     ]
+    //se o score foi maior ou igual 4 ele assume valor 0.5
     if (z >= 4) {
         return 0.5
-    } else if (z <= 3.99) {
+    }
+    //se o score z for menor que 4 ele o o multiplica por 100 e acha a posição do score equivalente.
+    else if (z <= 3.99) {
         let posicao = z * 100
         return distribuicao_normal[posicao]
     }
@@ -557,10 +659,11 @@ function graficoGauss(comecoGauss, fimGauss, area1, area2) {
 /***********************************************************************************/
 /**********************      DISTRIBUIÇÃO UNIFORME      *****************************/
 /***********************************************************************************/
-let dadoUniforme_menor
-let dadoUniforme_entre
-let dadoUniforme_maior
-
+//informa o tipo de dado
+let dadoUniforme_menor = false
+let dadoUniforme_entre = false
+let dadoUniforme_maior = false
+//função para mudar qual o usuario desejar entre as opções disponiveis 
 function mudarUniforme(tipo) {
     if (tipo == 1) {
         document.getElementById('valorMenorUniforme').style.display = 'inline-block'
@@ -593,11 +696,9 @@ function mudarUniforme(tipo) {
     }
 }
 
-
-
 //Cálculos
 
-
+//captura dos dados inseridos 
 let inicio = document.getElementById('a')
 let fim = document.getElementById('b')
 let vmu = document.getElementById('valorMenorUniforme')
@@ -609,7 +710,7 @@ const resultado3 = document.getElementById('button3')
 resultado3.addEventListener('click', botaoClique3)
 
 
-
+//calcula a probabilidade uniforme
 function botaoClique3() {
     if (cont > 0) {
         while (tabela.firstChild) {
@@ -618,7 +719,7 @@ function botaoClique3() {
     }
     cont += 1
 
-
+    //converte os dados para o valor numerico 
     let a = parseFloat(inicio.value)
     let b = parseFloat(fim.value)
     let valorMenorUniforme = parseFloat(vmu.value)
@@ -629,7 +730,7 @@ function botaoClique3() {
     let intervalo
     let probabilidadeUniforme
     let podeseguir = true
-
+    //validação dos dados
     if (eDeUniforme >= eAteUniforme) {
         podeseguir = false
         Swal.fire({
@@ -671,28 +772,100 @@ function botaoClique3() {
                 vmau.focus()
             } // Coloca o cursor no elemento especificado
         })
+    } else if (eDeUniforme <= a || eDeUniforme >= b) {
+        podeseguir = false
+        Swal.fire({
+            icon: "error",
+            title: "O valor entre deve estar dentro do intervalo a e b",
+            text: "",
+            didClose: () => {
+                edu.focus()
+            } // Coloca o cursor no elemento especificado
+        })
+    } else if (eAteUniforme <= a || eAteUniforme >= b) {
+        podeseguir = false
+        Swal.fire({
+            icon: "error",
+            title: "O valor entre deve estar dentro do intervalo a e b",
+            text: "",
+            didClose: () => {
+                eau.focus()
+            } // Coloca o cursor no elemento especificado
+        })
     }
-        else if (eDeUniforme <= a || eDeUniforme >= b) {
-            podeseguir = false
-            Swal.fire({
-                icon: "error",
-                title: "O valor entre deve estar dentro do intervalo a e b",
-                text: "",
-                didClose: () => {
-                    edu.focus()
-                } // Coloca o cursor no elemento especificado
-            })
-        }else if (eAteUniforme <= a || eAteUniforme >= b) {
-                podeseguir = false
-                Swal.fire({
-                    icon: "error",
-                    title: "O valor entre deve estar dentro do intervalo a e b",
-                    text: "",
-                    didClose: () => {
-                        eau.focus()
-                    } // Coloca o cursor no elemento especificado
-                })
-    } else if (podeseguir) {
+    else if (inicio.value.trim() == '') {
+        Swal.fire({
+            icon: "error",
+            title: "O inicio da variável deve ser preenchido!", 
+            text: "",
+            didClose: () => {
+            inicio.focus()} // Coloca o cursor no elemento especificado
+        }) 
+        podeseguir = false
+    }
+    else if (fim.value.trim() == '') {
+        Swal.fire({
+            icon: "error",
+            title: "O fim da variável deve ser preenchido!", 
+            text: "",
+            didClose: () => {
+            fim.focus()} // Coloca o cursor no elemento especificado
+        }) 
+        podeseguir = false
+    }
+    else if (vmu.value.trim() == '' && dadoUniforme_menor == true) {
+        Swal.fire({
+            icon: "error",
+            title: "Digite o valor menor que!", 
+            text: "",
+            didClose: () => {
+            vmu.focus()} // Coloca o cursor no elemento especificado
+        }) 
+        podeseguir = false
+    }
+    else if (vmau.value.trim() == '' && dadoUniforme_maior == true) {
+        Swal.fire({
+            icon: "error",
+            title: "Digite o valor maior que!", 
+            text: "",
+            didClose: () => {
+            vmau.focus()} // Coloca o cursor no elemento especificado
+        }) 
+        podeseguir = false
+    }
+    else if (edu.value.trim() == '' && dadoUniforme_entre == true) {
+        Swal.fire({
+            icon: "error",
+            title: "Digite o valor entre de que!", 
+            text: "",
+            didClose: () => {
+            edu.focus()} // Coloca o cursor no elemento especificado
+        }) 
+        podeseguir = false
+    }
+    else if (eau.value.trim() == '' && dadoUniforme_entre == true) {
+        Swal.fire({
+            icon: "error",
+            title: "Digite o valor entre até que!", 
+            text: "",
+            didClose: () => {
+            eau.focus()} // Coloca o cursor no elemento especificado
+        }) 
+        podeseguir = false
+    }
+    else if (dadoUniforme_entre == false && dadoUniforme_maior == false && dadoUniforme_menor == false) {
+        Swal.fire({
+            icon: "error",
+            title: "Esolha o tipo de valor!", 
+            text: "",
+            didClose: () => {
+            } // Coloca o cursor no elemento especificado
+        }) 
+        podeseguir = false
+    }
+    //se os dados estiverem corretos pode seguir com os calculos 
+    else if (podeseguir) {
+        //caclula coisas que não depende do tipo da variavel
         densidade = 1 / (b - a)
         media = (b + a) / 2
         varianca = ((b - a) ** 2) / 12

@@ -1,30 +1,30 @@
 //Captura de dados
-const nome = document.querySelector('#nome-var')
-const nome2 = document.querySelector('#nome-var2')
-const dados = document.getElementById("dados")
-const resultado = document.getElementById("button")
-const tabela = document.getElementById("tabelasvariaveis")
-const tipo_variavel = document.getElementById("tipo de variavel")
-const ordem = document.getElementById("ordem_dados")
-const pontos_centrais = document.getElementById('tabela_medias')
-const amostra = document.getElementById('Amostra')
-const populacao = document.getElementById('População')
-const desvio = document.getElementById('varianca_desvio')
-let vetor_final2 = []
-let total = 0
+const nome = document.querySelector('#nome-var') //Captura o nome da variavel
+const dados = document.getElementById("dados") //captura os dados digitados
+const resultado = document.getElementById("button") //captura quando o botão for clicado
+const tabela = document.getElementById("tabelasvariaveis") // captura a tabela principal para podermos editar via java script
+const tipo_variavel = document.getElementById("tipo de variavel") //informa o tipo de variavel
+const ordem = document.getElementById("ordem_dados") // informa a ordem dos dados
+const pontos_centrais = document.getElementById('tabela_medias') //captura a tabela de medidas centrais para podermos editar via java script
+const amostra = document.getElementById('Amostra') //informa se é amostra
+const populacao = document.getElementById('População') // informa se é população
+const desvio = document.getElementById('varianca_desvio') // captura a tabela de variancia e desvio padrão para podermos editar via java script
+let vetor_final2 = [] //vetor com os dados usado em quase todas as funções
+let total = 0 //inicia o total de itens dos dados
 let tira_espaco = /\s*;\s*/; // Tira os espaços entre os ";"
-let vetor_continuo = []
+let vetor_continuo = [] //vetor que utilizamos quando trabalhamos com o tipo de variavel continuo
 
 function botaoClique() {
-    // CRIANDO O VETOR            
-    let dados_valores = dados.value
+    // CRIANDO O VETOR para auxiliar a transformar em vetor os dados           
+    let dados_valores = dados.value // pega os dados com seu valor 
     let vetor1 = dados_valores.split(tira_espaco) // Tira os espaços entre os ";"         
     let vetor_final = vetor1.filter(x => x.trim()) // Remove itens vazios do vetor
     // Coloca em ordem
-    let conta_numero = 0
-    let conta_string = 0
-    let organizar_string = []
-    let organizar_numero = []
+    let conta_numero = 0 // conta quantas variaveis são do tipo number
+    let conta_string = 0 // conta quantas variaveis são do tipo string
+    let organizar_string = [] // ajuda a organizar as strings em ordem alfabetica
+    let organizar_numero = [] // ajuda a organizar os numeros em ordem crescente
+    //faz as tepetições para organizar o vetor e conta quanto tem de cada tipo de variavel
     for (conteudo of vetor_final) {
         let descubra = parseFloat(conteudo)
 
@@ -37,13 +37,15 @@ function botaoClique() {
         }
 
     }
-
+    //se os dados tiver apenas numeros ele organiza aqui
     if (conta_string == 0) {
         vetor_final.sort(function (a, b) {
             return a - b;
         });
         vetor_final
-    } else if (conta_string > 0 && conta_numero > 0) {
+    }
+    //se os dados tiverm tanto numeros quanto strings ira organizar aqui
+    else if (conta_string > 0 && conta_numero > 0) {
         organizar_numero.sort(function (a, b) {
             return a - b;
         });
@@ -58,9 +60,10 @@ function botaoClique() {
         for (dado of organizar_numero) {
             vetor_final.push(dado)
         }
-    } else {
-        quickSort(vetor_final)  // USANDO ALGORITMO DE ORDENAÇÃO
-        //vetor_final.sort()
+    }
+    //se os dados tiver apenas strings ele organiza aqui 
+    else {
+        quickSort(vetor_final) // USANDO ALGORITMO DE ORDENAÇÃO
     }
     // valida dados
     // estes lets ajudam na validação 
@@ -69,72 +72,91 @@ function botaoClique() {
     let vetor_organizador = ordem_dados.split(tira_espaco) // Tira os espaços entre os ";"         
     let vetor_ordem = vetor_organizador.filter(x => x.trim()) // Remove itens vazios do vetor
 
-
+    //Verfica se o nome das variaveis foi preenchido
     if (nome.value.trim() == '') {
         Swal.fire({
             icon: "error",
-            title: "O nome da variável deve ser preenchido!", 
+            title: "O nome da variável deve ser preenchido!",
             text: "",
             didClose: () => {
-            nome.focus()} // Coloca o cursor no elemento especificado
-        }) 
+                nome.focus()
+            } // Coloca o cursor no elemento especificado
+        })
         podeseguir = false
-    } else if (conta_numero == 0 && conta_string == 0) {
+    }
+    //Verifica se os dados foram preenchidos 
+    else if (conta_numero == 0 && conta_string == 0) {
         Swal.fire({
             icon: "error",
-            title: "Insira os dados!", 
+            title: "Insira os dados!",
             text: "",
             didClose: () => {
-            dados.focus()} // Coloca o cursor no elemento especificado
-        }) 
+                dados.focus()
+            } // Coloca o cursor no elemento especificado
+        })
         podeseguir = false
-    } else if (tipo_variavel.selectedIndex == 0) {
+    }
+    //verifica se escolheu o tipo de variavel 
+    else if (tipo_variavel.selectedIndex == 0) {
         Swal.fire({
             icon: "error",
-            title: "Escolha o tipo de dado.", 
+            title: "Escolha o tipo de dado.",
             text: "",
             didClose: () => {
-            tipo_variavel.focus()} // Coloca o cursor no elemento especificado
+                tipo_variavel.focus()
+            } // Coloca o cursor no elemento especificado
         })
         podeseguir = false
 
-    } else if (tipo_variavel.selectedIndex == 2 && vetor_ordem[0] === undefined) {
+    }
+    //verifica caso seja escolhido o tipo de variavel qualitativa ordinal a ordem foi preenchida
+    else if (tipo_variavel.selectedIndex == 2 && vetor_ordem[0] === undefined) {
         Swal.fire({
             icon: "error",
-            title: "Insira a ordem desejada.", 
+            title: "Insira a ordem desejada.",
             text: "",
             didClose: () => {
-            ordem.focus()} // Coloca o cursor no elemento especificado
+                ordem.focus()
+            } // Coloca o cursor no elemento especificado
         })
         podeseguir = false
-    } else if ((tipo_variavel.selectedIndex == 3 || tipo_variavel.selectedIndex == 4) && conta_string > 0) {
+    }
+    //verifica se caso escolhido o tipo de variavel quantitativa se ela não possui strings  
+    else if ((tipo_variavel.selectedIndex == 3 || tipo_variavel.selectedIndex == 4) && conta_string > 0) {
         Swal.fire({
             icon: "error",
-            title: "Dados ou seleção do tipo de dados errados!", 
+            title: "Dados ou seleção do tipo de dados errados!",
             text: "",
             didClose: () => {
-            dados.focus()} // Coloca o cursor no elemento especificado
+                dados.focus()
+            } // Coloca o cursor no elemento especificado
         })
         podeseguir = false
-    } else if (vetor_ordem[0] != undefined && tipo_variavel.selectedIndex != 2) {
+    }
+    // verifica se preencheu a ordem sem ser o tipo de variavel qualitativa ordinal 
+    else if (vetor_ordem[0] != undefined && tipo_variavel.selectedIndex != 2) {
         Swal.fire({
             icon: "error",
-            title: "Selecione o tipo de variavel correta ou apague a ordem.", 
+            title: "Selecione o tipo de variavel correta ou apague a ordem.",
             text: "",
             didClose: () => {
-            tipo_variavel.focus()} // Coloca o cursor no elemento especificado
+                tipo_variavel.focus()
+            } // Coloca o cursor no elemento especificado
         })
         podeseguir = false
-    } else if (tipo_variavel.selectedIndex == 2) {
+    }
+    //verifica se o item dos dados contem um exemplo na ordem 
+    else if (tipo_variavel.selectedIndex == 2) {
         for (dado of vetor_final) {
             let tem = vetor_ordem.indexOf(dado)
             if (tem < 0) {
                 Swal.fire({
                     icon: "error",
-                    title: "Item não consta na ordem: " + dado, 
+                    title: "Item não consta na ordem: " + dado,
                     text: "",
                     didClose: () => {
-                    ordem.focus()} // Coloca o cursor no elemento especificado
+                        ordem.focus()
+                    } // Coloca o cursor no elemento especificado
                 })
                 podeseguir = false
                 break
@@ -146,23 +168,21 @@ function botaoClique() {
             if (tems < 0) {
                 Swal.fire({
                     icon: "error",
-                    title: "Item incluído na ordem desejada não existe." , 
+                    title: "Item incluído na ordem desejada não existe.",
                     text: "O item é: " + falto,
                     didClose: () => {
-                    ordem.focus()} // Coloca o cursor no elemento especificado
+                        ordem.focus()
+                    } // Coloca o cursor no elemento especificado
                 })
                 podeseguir = false
                 break
             }
-
         }
-
     }
 
     // se não faltar dado o programa continua 
     if (podeseguir) {
 
-        // nome2.innerHTML = nome.value
         // Contando as ocorrências de cada item no vetor 
 
         for (let i = 0; i < vetor_final.length; i++) {
@@ -176,31 +196,29 @@ function botaoClique() {
                 let indices = []
                 let item = vetor_final[i]
                 let idx = vetor_final.indexOf(item)
+                //conta quanto tem de cada item
                 while (idx != -1) {
                     indices.push(idx);
                     idx = vetor_final.indexOf(item, idx + 1);
                 }
 
-                total += parseInt(indices.length)
+                total += parseInt(indices.length) // conta o total de itens
 
-                inserir_obj(item, indices.length)
+                inserir_obj(item, indices.length) //chama a função que coloca dentreo de um objeto os dados e joga pro vetorfinal2 
             }
         }
-
+        //ordena o vetor_final2 na ordem que o usuario informou se a variavel for do tipo ordinal
         if (tipo_variavel.selectedIndex == 2) {
-            let vetor_aux = []
+            let vetor_aux = [] //ajuda na ordenação
 
-            
             for (dado of vetor_ordem) {
                 // USANDO ALGORITMO DE BUSCA
-                let a = buscaSequencial(vetor_final2, dado, (obj, valor) => obj['nome'] === valor) 
+                let a = buscaSequencial(vetor_final2, dado, (obj, valor) => obj['nome'] === valor)
                 let help = vetor_final2[a]
                 vetor_aux.push(help)
                 vetor_final2.splice(a, 1)
             }
             vetor_final2 = vetor_aux
-
-
         }
         // Quando é o caso de quantitativo continuo
         if (tipo_variavel.selectedIndex == 4) {
@@ -238,14 +256,14 @@ function botaoClique() {
                 }
             }
             //organizando os dados dessa categoria 
-            let ajuda = parseFloat(inicio_classe)
-            let contador = 0
+            let ajuda = parseFloat(inicio_classe) //onde começa a primeira classe
+            let contador = 0 // 
             let aux2 = 0
-            let aux4 = numero_de_linhas - 1
-
+            let aux4 = numero_de_linhas - 1 // quantas vezes o for ira executar
+            // cria as classes 
             for (let i = 0; i < numero_de_linhas; i++) {
-                let ajuda_antiga = ajuda
-                ajuda += intervalo_de_classe,
+                let ajuda_antiga = ajuda // qual é o inicio da classe
+                ajuda += intervalo_de_classe, // o fim da classe
                     contador = 0
 
                 for (let q = 0; q < vetor_final2.length; q++) {
@@ -297,10 +315,8 @@ function botaoClique() {
                         }
                     }
                 }
-
             }
             vetor_final2 = vetor_continuo
-
         }
         //calculando as frequencias chamando uma função a parte 
         for (let i = 0; i < vetor_final2.length; i++) {
@@ -389,28 +405,30 @@ function botaoClique() {
         let cel10 = document.createElement('td')
         linha.appendChild(cel10)
 
-        grafico(vetor_final2, tipo_variavel.selectedIndex, nome.value)
-        tendencia_central(vetor_final2, tipo_variavel.selectedIndex, total)
+        grafico(vetor_final2, tipo_variavel.selectedIndex, nome.value) //cria o grafico usando uma função
+        tendencia_central(vetor_final2, tipo_variavel.selectedIndex, total) //calcula as tendencias centrais
         const mostrar = document.getElementById('medida_separatriz')
-        mostrar.style.visibility= 'visible'//('visibility visible')
+        mostrar.style.visibility = 'visible' //('visibility visible')// mostra as mediadas separatrizes
         const mostrar2 = document.getElementById('canvas')
-        mostrar2.style.visibility= 'visible'//('visibility visible')
+        mostrar2.style.visibility = 'visible' //('visibility visible') // torna o grafico visivel
 
         const show = document.getElementById('aside-grafico')
         show.style.display = 'block' // Mostrar aside do gráfico
         const show2 = document.getElementById('section-tabelas')
-        show2.style.display= 'block' // Mostrar section tabelas
+        show2.style.display = 'block' // Mostrar section tabelas
         const show3 = document.getElementById('to-top')
-        show3.style.display= 'flex' // Mostar botão de roalr para cima
+        show3.style.display = 'flex' // Mostar botão de roalr para cima
 
-       
+
         // Descer a página após clicar no botão
-        $('html, body').animate({ scrollTop: 2000 }, 0);
-    }    
+        $('html, body').animate({
+            scrollTop: 2000
+        }, 0);
+    }
 }
 
 
-resultado.addEventListener('click', botaoClique)
+resultado.addEventListener('click', botaoClique) // informa quando o botão calcular for acionado
 
 // ALGORITMO DE BUSCA
 function buscaSequencial(lista, valorBusca, fnComp) {
@@ -424,23 +442,23 @@ function buscaSequencial(lista, valorBusca, fnComp) {
 
 // ALGORITMO DE ORDENAÇÃO
 function quickSort(vetor, inicio = 0, fim = vetor.length - 1) {
-    if(fim > inicio) {  // Garante que haja, PELO MENOS, DOIS elementos para ordenar
+    if (fim > inicio) { // Garante que haja, PELO MENOS, DOIS elementos para ordenar
         let posDiv = inicio - 1
         let posPivot = fim
-        for(let i = inicio; i < fim; i++) {
-            if(vetor[i] < vetor[posPivot]) {
+        for (let i = inicio; i < fim; i++) {
+            if (vetor[i] < vetor[posPivot]) {
                 posDiv++
-                [vetor[i], vetor [posDiv]] = [vetor[posDiv], vetor[i]]
+                [vetor[i], vetor[posDiv]] = [vetor[posDiv], vetor[i]]
             }
         }
         // Último incremento de posDiv, após o loop terminar
         posDiv++
         [vetor[posDiv], vetor[posPivot]] = [vetor[posPivot], vetor[posDiv]]
-        quickSort(vetor, inicio, posDiv - 1)    // Lado esquerdo
-        quickSort(vetor, posDiv + 1, fim)       // Lado direito
+        quickSort(vetor, inicio, posDiv - 1) // Lado esquerdo
+        quickSort(vetor, posDiv + 1, fim) // Lado direito
     }
 }
-
+//Cria um objeto e coloca a quantidade e nome do dado e joga pro vetor_final2
 function inserir_obj(dado, quantidade) {
     let obj = {
         nome: dado,
@@ -449,6 +467,7 @@ function inserir_obj(dado, quantidade) {
     vetor_final2.push(obj)
 }
 
+//calcula as frequencias 
 function frequencias(i) {
     let aux = (i - 1)
     if (aux < 0) {
@@ -471,13 +490,14 @@ function frequencias(i) {
     }
 
 }
-
+//gera o grafico
 function grafico(vetor_final2, tipo_variavel, titulo) {
     let nome_dado = []
     let valor_dado = []
     let valor_porcentagem = []
     let cores_aleatorias = []
     let cores_aleatorias2 = []
+    //gera cores aleatorias pro grafico
     for (let i = 0; i < vetor_final2.length; i++) {
         nome_dado.push(vetor_final2[i]['nome'])
         valor_dado.push(vetor_final2[i]['valor'])
@@ -492,6 +512,7 @@ function grafico(vetor_final2, tipo_variavel, titulo) {
 
     }
     var ctx = document.getElementById('myChart');
+    //conforme o tipo de variavel se altera o tipo de grafico
     if (tipo_variavel == 1 || tipo_variavel == 2) {
 
         var myChart = new Chart(ctx, {
@@ -574,12 +595,9 @@ function grafico(vetor_final2, tipo_variavel, titulo) {
                 }
             }
         })
-
-
     }
-
 } // fim função
-
+// calcula as tendencias centrais 
 function tendencia_central(vetordados, tipo_variavel, total) {
     let vetor_aux2 = vetordados.slice(0, vetordados.length)
     let stringmediana = ""
@@ -588,7 +606,7 @@ function tendencia_central(vetordados, tipo_variavel, total) {
     if (tipo_variavel == 1 || tipo_variavel == 2) {
 
         stringmediana = achando_mediana(vetordados, total, tipo_variavel)
-        stringmoda = achando_moda(vetordados, vetor_aux2,tipo_variavel)
+        stringmoda = achando_moda(vetordados, vetor_aux2, tipo_variavel)
 
         stringmedia = "Não possui média"
 
@@ -601,7 +619,7 @@ function tendencia_central(vetordados, tipo_variavel, total) {
         }
         stringmedia = soma / total
         stringmediana = achando_mediana(vetordados, total, tipo_variavel)
-        stringmoda = achando_moda(vetordados, vetor_aux2,tipo_variavel)
+        stringmoda = achando_moda(vetordados, vetor_aux2, tipo_variavel)
     } else if (tipo_variavel == 4) {
         let soma = 0
 
@@ -612,28 +630,26 @@ function tendencia_central(vetordados, tipo_variavel, total) {
 
         }
         stringmedia = soma / total
-        stringmoda = achando_moda(vetordados, vetor_aux2,tipo_variavel)
+        stringmoda = achando_moda(vetordados, vetor_aux2, tipo_variavel)
 
 
         let possiveis_medianas_continua = achando_mediana(vetordados, total, tipo_variavel)
-        
-            for(a =0 ; a < vetordados.length;a++){
-                let nome1 = vetordados[a]['nome']
-                if(possiveis_medianas_continua[0] == nome1){
-                      let somatoria = Math.ceil(total/2)
-                      let fant = vetordados[a-1]['Frequencia acumulada']
-                      let fimd = vetordados[a]["valor"]
-                      let h = vetordados[a]['limite_superior'] - vetordados[a]['limite_inferior']
-                      let i = vetordados[a]['limite_inferior']
-                      let fracao = (somatoria - fant)/fimd
-                      let md = (fracao*h)+i
-                      stringmediana = md
-                
-                }
+
+        for (a = 0; a < vetordados.length; a++) {
+            let nome1 = vetordados[a]['nome']
+            if (possiveis_medianas_continua[0] == nome1) {
+                let somatoria = Math.ceil(total / 2)
+                let fant = vetordados[a - 1]['Frequencia acumulada']
+                let fimd = vetordados[a]["valor"]
+                let h = vetordados[a]['limite_superior'] - vetordados[a]['limite_inferior']
+                let i = vetordados[a]['limite_inferior']
+                let fracao = (somatoria - fant) / fimd
+                let md = (fracao * h) + i
+                stringmediana = md
             }
-        
+        }
     }
-    
+
     // criando a tabela dos pontos mediais 
     // cria o cabeçalho da tabela
     let linha_nomes = document.createElement('tr')
@@ -674,7 +690,7 @@ function tendencia_central(vetordados, tipo_variavel, total) {
     cel3.innerText = stringmoda
     linha.appendChild(cel3)
 
-    desvio_padrão(vetor_final2,tipo_variavel,total,stringmedia)
+    desvio_padrão(vetor_final2, tipo_variavel, total, stringmedia)
 }
 
 // acha a mediana dos 3 primeiros casos
@@ -682,7 +698,7 @@ function achando_mediana(vetordados, total, tipo_variavel) {
     let mediana = []
     let stringmediana = ""
     if (total % 2 == 0) {
-        let possivel_mediana1 = total/2
+        let possivel_mediana1 = total / 2
         let possivel_mediana2 = possivel_mediana1 + 1
         for (let i = 0; i < vetordados.length; i++) {
             if (possivel_mediana1 <= vetordados[i]['Frequencia acumulada'] && vetordados[i]['intervalo inferior frequencia acumulada'] < possivel_mediana1) {
@@ -691,30 +707,25 @@ function achando_mediana(vetordados, total, tipo_variavel) {
                 mediana.push(vetordados[i]['nome'])
             }
         }
-
-
     } else if (total % 2 != 0) {
         let possivel_mediana = Math.ceil(total / 2)
         for (let i = 0; i < vetordados.length; i++) {
             if ((possivel_mediana <= vetordados[i]['Frequencia acumulada']) && (vetordados[i]['intervalo inferior frequencia acumulada'] < possivel_mediana)) {
                 mediana.push(vetordados[i]['nome'])
-
             }
         }
     }
     if (tipo_variavel == 1 || tipo_variavel == 2 || tipo_variavel == 3) {
         for (dado of mediana) {
             stringmediana += dado + " "
-
         }
-
         return stringmediana
     } else if (tipo_variavel == 4) {
         return mediana
     }
 }
-
-function achando_moda(vetordados, vetor_aux2,tipo_variavel) {
+//acha qual é a moda 
+function achando_moda(vetordados, vetor_aux2, tipo_variavel) {
     let vetor_frequecias = []
     let moda = []
     let maior_frequencia
@@ -749,18 +760,15 @@ function achando_moda(vetordados, vetor_aux2,tipo_variavel) {
     if (tamanho_moda == tamanho_vetordados) {
         stringmoda = "Não possui moda"
 
-    } 
-   else if(tipo_variavel == 4){
-    
-        for(i = 0; i < vetordados.length; i++){
-            if(moda[0] == vetordados[i]['nome']){
-                stringmoda = Number((vetordados[i]['limite_inferior']+ vetordados[i]['limite_superior'])/2)
+    } else if (tipo_variavel == 4) {
+
+        for (i = 0; i < vetordados.length; i++) {
+            if (moda[0] == vetordados[i]['nome']) {
+                stringmoda = Number((vetordados[i]['limite_inferior'] + vetordados[i]['limite_superior']) / 2)
             }
         }
-            
-    }
-       
-    else {
+
+    } else {
         if (moda.length == 1) {
             stringmoda = moda[0]
         } else if (moda.length > 1) {
@@ -769,87 +777,89 @@ function achando_moda(vetordados, vetor_aux2,tipo_variavel) {
 
             }
         }
-
     }
-   
     return stringmoda
 }
+
+//calcula as medidas separatrizes
 const medias_moveis = document.getElementById('medias_moveis')
 const medias_moveis_valores = document.getElementById('medias_moveis_valores')
-medias_moveis.addEventListener('click', criando_valores)
-function criando_valores(){   
-    for (i = 0; i < medias_moveis_valores.length; i = i ++) {
+medias_moveis.addEventListener('click', criando_valores) //chama a função quando escolhemos o valor
+function criando_valores() {
+    //remove os valores anteriores 
+    for (i = 0; i < medias_moveis_valores.length; i = i++) {
         medias_moveis_valores.remove(0);
-    } 
+    }
     let tipo_media = medias_moveis.value
     let intervalo
-if(tipo_media == 'Quartil'){
-    intervalo = 25
-}else if(tipo_media == 'Quintil'){
-    intervalo = 20
-}else if(tipo_media == 'Decil'){
-    intervalo = 10
-}else if(tipo_media == 'Porcentil'){
-    intervalo = 1
-}
+    // descobre o tipo informado 
+    if (tipo_media == 'Quartil') {
+        intervalo = 25
+    } else if (tipo_media == 'Quintil') {
+        intervalo = 20
+    } else if (tipo_media == 'Decil') {
+        intervalo = 10
+    } else if (tipo_media == 'Porcentil') {
+        intervalo = 1
+    }
+    //cria os valores de cada intervalo
+    for (let i = intervalo; i <= 100; i += intervalo) {
+        let valor = document.createElement('option')
+        valor.innerHTML = i
+        medias_moveis_valores.appendChild(valor)
+        medias_moveis_valores.addEventListener('click', calcula)
+    }
+    //realiza os calculos das medidas separatrizes 
+    function calcula() {
+        let porcentagem = medias_moveis_valores.value
+        let resultado = mediana_movel(vetor_final2, total, tipo_variavel.selectedIndex, porcentagem)
 
-for(let i =intervalo; i <=100; i+=intervalo){
-    let valor = document.createElement('option')
-    valor.innerHTML = i
-    medias_moveis_valores.appendChild(valor)
-    medias_moveis_valores.addEventListener('click', calcula)
-}
+        const exibir = document.getElementById('media_movel_resultado')
+        exibir.innerHTML = resultado
 
-function calcula(){
-let porcentagem = medias_moveis_valores.value
-let resultado = mediana_movel(vetor_final2,total,tipo_variavel.selectedIndex,porcentagem)
+        function mediana_movel(vetordados, total, tipo_variavel, porcentagem) {
+            let mediana = []
+            let stringmediana = ""
+            let porcentagem_decimal = porcentagem / 100
+            let possivel_mediana1 = total * porcentagem_decimal
+            for (let i = 0; i < vetordados.length; i++) {
+                if (possivel_mediana1 <= vetordados[i]['Frequencia acumulada'] && vetordados[i]['intervalo inferior frequencia acumulada'] < possivel_mediana1) {
+                    mediana.push(vetordados[i]['nome'])
 
-const exibir = document.getElementById('media_movel_resultado')
-exibir.innerHTML = resultado
-function mediana_movel(vetordados, total, tipo_variavel, porcentagem) {
-    let mediana = []
-    let stringmediana = ""
-   let porcentagem_decimal = porcentagem/100 
-        let possivel_mediana1 = total*porcentagem_decimal
-        for (let i = 0; i < vetordados.length; i++) {
-            if (possivel_mediana1 <= vetordados[i]['Frequencia acumulada'] && vetordados[i]['intervalo inferior frequencia acumulada'] < possivel_mediana1) {
-                mediana.push(vetordados[i]['nome'])
-                
-            } 
-        }
-    if (tipo_variavel == 1 || tipo_variavel == 2 || tipo_variavel == 3) {
-        
-            stringmediana = mediana[0]
-
-        return stringmediana
-    } else if (tipo_variavel == 4) {
-        let fac
-        for(a =0 ; a < vetor_final2.length;a++){
-            let nome1 = vetor_final2[a]['nome']
-            if(mediana[0] == nome1){
-                if(a==0){
-                     fac = 0
                 }
-                else {
-                     fac = vetor_final2[a-1]['Frequencia acumulada']
+            }
+            if (tipo_variavel == 1 || tipo_variavel == 2 || tipo_variavel == 3) {
+
+                stringmediana = mediana[0]
+
+                return stringmediana
+            } else if (tipo_variavel == 4) {
+                let fac
+                for (a = 0; a < vetor_final2.length; a++) {
+                    let nome1 = vetor_final2[a]['nome']
+                    if (mediana[0] == nome1) {
+                        if (a == 0) {
+                            fac = 0
+                        } else {
+                            fac = vetor_final2[a - 1]['Frequencia acumulada']
+                        }
+                        let posicao = possivel_mediana1
+                        let h = vetor_final2[a]['limite_superior'] - vetor_final2[a]['limite_inferior']
+                        let i = vetor_final2[a]['limite_inferior']
+                        let fi = vetor_final2[a]['valor']
+                        let fracao = (posicao - fac) / fi
+                        let md = (h * fracao) + i
+                        stringmediana = md
+
+                    }
                 }
-                 let posicao = possivel_mediana1
-                  let h = vetor_final2[a]['limite_superior'] - vetor_final2[a]['limite_inferior']
-                  let i = vetor_final2[a]['limite_inferior']
-                  let fi = vetor_final2[a]['valor']
-                  let fracao = (posicao - fac)/fi
-                  let md = (h*fracao) + i
-                  stringmediana = md
-            
+                return stringmediana
             }
         }
-        return stringmediana
     }
 }
-}
-}
-
-function desvio_padrão(vetor_final2,tipo_variavel,total,stringmedia){
+// calcula o desvio padrão 
+function desvio_padrão(vetor_final2, tipo_variavel, total, stringmedia) {
     let stringvarianca
     let stringDesvioPadrao
     let stringCoeficienteDeVariacao
@@ -875,86 +885,108 @@ function desvio_padrão(vetor_final2,tipo_variavel,total,stringmedia){
     coeficiente.innerText = "Coeficiente de variação"
     linha_nomes.appendChild(coeficiente)
 
-    if(tipo_variavel == 1 || tipo_variavel == 2){
+    if (tipo_variavel == 1 || tipo_variavel == 2) {
         stringvarianca = "Não possui variança"
-        stringDesvioPadrao ="Não possui desvio padrão"
+        stringDesvioPadrao = "Não possui desvio padrão"
         stringCoeficienteDeVariacao = "Não possui coeficiente de Variação"
         //inserindo os valores 
-    //CRIAR LINHA NA TABELA
-    let linha = document.createElement('tr')
-    desvio.appendChild(linha)
-    //valor desvio padrao
-    let cel1 = document.createElement('td')
-    cel1.id = 'desvio_padrao_valor'
-    cel1.innerText = stringDesvioPadrao
-    linha.appendChild(cel1)
-    //valor da mediana
-    let cel2 = document.createElement('td')
-    cel2.id = 'varianca_valor'
-    cel2.innerText = stringvarianca
-    linha.appendChild(cel2)
-    //valor da moda
-    let cel3 = document.createElement('td')
-    cel3.id = 'coeficiente_valor'
-    cel3.innerText = stringCoeficienteDeVariacao
-    linha.appendChild(cel3)
-    }
-    
+        //CRIAR LINHA NA TABELA
+        let linha = document.createElement('tr')
+        desvio.appendChild(linha)
+        //valor desvio padrao
+        let cel1 = document.createElement('td')
+        cel1.id = 'desvio_padrao_valor'
+        cel1.innerText = stringDesvioPadrao
+        linha.appendChild(cel1)
+        //valor da mediana
+        let cel2 = document.createElement('td')
+        cel2.id = 'varianca_valor'
+        cel2.innerText = stringvarianca
+        linha.appendChild(cel2)
+        //valor da moda
+        let cel3 = document.createElement('td')
+        cel3.id = 'coeficiente_valor'
+        cel3.innerText = stringCoeficienteDeVariacao
+        linha.appendChild(cel3)
+    } else {
+        if (tipo_variavel == 3) {
+            for (let i = 0; i < vetor_final2.length; i++) {
+                somatoria += ((vetor_final2[i]['nome'] - stringmedia) ** 2) * vetor_final2[i]['valor']
+            }
+        } else if (tipo_variavel == 4) {
+            for (let i = 0; i < vetor_final2.length; i++) {
+                let media_simples = 0
+                media_simples = Number((vetor_final2[i]['limite_inferior'] + vetor_final2[i]['limite_superior']) / 2)
+                somatoria += ((media_simples - stringmedia) ** 2) * vetor_final2[i]['valor']
 
-    else{
-     if(tipo_variavel == 3){
-    for (let i = 0; i < vetor_final2.length; i++) {
-       somatoria += ((vetor_final2[i]['nome']-stringmedia)**2)*vetor_final2[i]['valor']
-    }
-}
-else if (tipo_variavel == 4){
-    for (let i = 0; i < vetor_final2.length; i++) {
-        let media_simples = 0
-        media_simples = Number((vetor_final2[i]['limite_inferior'] + vetor_final2[i]['limite_superior']) / 2)
-        somatoria += ((media_simples - stringmedia)**2)*vetor_final2[i]['valor']
+            }
+        }
 
-    }
-}
+        if (amostra.checked) {
+            stringvarianca = somatoria / (total - 1)
+        } else if (populacao.checked) {
+            stringvarianca = somatoria / total
 
-if(amostra.checked){
-    stringvarianca = somatoria/(total - 1)
-}
-else if(populacao.checked){
-    stringvarianca = somatoria/total
-
-}
-stringDesvioPadrao = stringvarianca ** (1/2)
-stringCoeficienteDeVariacao = (stringDesvioPadrao/stringmedia) * 100
-//inserindo os valores 
-    //CRIAR LINHA NA TABELA
-    let linha = document.createElement('tr')
-    desvio.appendChild(linha)
-    //valor desvio padrao
-    let cel1 = document.createElement('td')
-    cel1.id = 'desvio_padrao_valor'
-    cel1.innerText = stringDesvioPadrao.toFixed(2)
-    linha.appendChild(cel1)
-    //valor da mediana
-    let cel2 = document.createElement('td')
-    cel2.id = 'varianca_valor'
-    cel2.innerText = stringvarianca.toFixed(2)
-    linha.appendChild(cel2)
-    //valor da moda
-    let cel3 = document.createElement('td')
-    cel3.id = 'coeficiente_valor'
-    cel3.innerText = stringCoeficienteDeVariacao.toFixed(2) + "%"
-    linha.appendChild(cel3)
+        }
+        stringDesvioPadrao = stringvarianca ** (1 / 2)
+        stringCoeficienteDeVariacao = (stringDesvioPadrao / stringmedia) * 100
+        //inserindo os valores 
+        //CRIAR LINHA NA TABELA
+        let linha = document.createElement('tr')
+        desvio.appendChild(linha)
+        //valor desvio padrao
+        let cel1 = document.createElement('td')
+        cel1.id = 'desvio_padrao_valor'
+        cel1.innerText = stringDesvioPadrao.toFixed(2)
+        linha.appendChild(cel1)
+        //valor da mediana
+        let cel2 = document.createElement('td')
+        cel2.id = 'varianca_valor'
+        cel2.innerText = stringvarianca.toFixed(2)
+        linha.appendChild(cel2)
+        //valor da moda
+        let cel3 = document.createElement('td')
+        cel3.id = 'coeficiente_valor'
+        cel3.innerText = stringCoeficienteDeVariacao.toFixed(2) + "%"
+        linha.appendChild(cel3)
     }
 
-    
+
 }
 
+/***************BOTÃO DE UPLOAD DE ARQUIVO*******************/
+let btn_upload = document.getElementById('btn-upload-csv').addEventListener('click', () => {
+    Papa.parse(document.getElementById('upload-csv').files[0], {
+        download: true,
+        header: true,
+        encoding: "ISO-8859-1",
+        complete: function(results) {
+            console.log(results)  
+            results.data.map((data, index) => {
+                let dadosx = document.getElementById("dados")
+                gerarDadosX(dadosx, data)
+            })
+        }
+    })
+})
+function gerarDadosX(dados, data) {
+    let cont = 0
+    for(let i in data) {
+        cont++
+        if (cont == 1) {
+            dados.value += data[i] + ';' 
+        }                
+    }
+}
+/************************************************************/
+
+/**********************BOTÃO DE ROLAR PARA CIMA ****************************/
 const toTop = document.querySelector(".to-top");
 
 window.addEventListener("scroll", () => {
-  if (window.pageYOffset > 100) {
-    toTop.classList.add("active");
-  } else {
-    toTop.classList.remove("active");
-  }
+    if (window.pageYOffset > 100) {
+        toTop.classList.add("active");
+    } else {
+        toTop.classList.remove("active");
+    }
 })

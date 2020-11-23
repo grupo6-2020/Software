@@ -22,11 +22,18 @@ form {
     border-radius: 5px;
     box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
     width: 530px;
-    height: 400px;
+    height: 450px;
     margin: auto;
     background-color: #fff;
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
+}
+
+#nomeX, #nomeY {
+    width: 60%;
+    border: 1px solid lightgrey;
+    margin-left: 10px;
+    font-size: 14px;
 }
 
 .dados {
@@ -46,14 +53,15 @@ form {
     display: flex;
     justify-content: center;
 }
+
 .div-upload input {
     display: none
 }
 
 
-  
+
 /* Aparência que terá o seletor de arquivo */
-.am  label {
+.am label {
     background-color: #4d1717;
     border-radius: 5px;
     color: #fff;
@@ -78,14 +86,15 @@ form {
     border-radius: 20%;
     cursor: pointer;
     box-shadow: -1px -1px 3px rgba(255, 255, 255, 0.1),
-                2px 2px 6px rgba(0, 0, 0, 0.8);    
+        2px 2px 6px rgba(0, 0, 0, 0.8);
 }
+
 .pop label .fas:hover {
     color: #00fff1;
     box-shadow: inset -1px -1px 3px rgba(255, 255, 255, 0.1),
-                inset 2px 2px 6px rgba(0, 0, 0, 1); 
+        inset 2px 2px 6px rgba(0, 0, 0, 1);
     text-shadow: 0 0 5px #00fff1,
-                 0 0 20px #00fff1;
+        0 0 20px #00fff1;
 }
 
 #side-menu {
@@ -137,14 +146,14 @@ div#botao {
     background: #4d1717;
     cursor: pointer;
     box-shadow: -1px -1px 3px rgba(255, 255, 255, 0.1),
-        2px 2px 6px rgba(0, 0, 0, 0.8);
+                 2px 2px 6px rgba(0, 0, 0, 0.8);
 }
 
 .botao:hover {
     color: #4d1717;
     background: #fff;
     box-shadow: 0 0 5px #fff,
-        0 0 25px #fff;
+                0 0 25px #fff
 }
 
 /* TABELA */
@@ -193,7 +202,7 @@ table td {
     vertical-align: middle;
 }
 
-/* correlação calculo*/
+/************ correlação calculo**********************/
 div#calculo_correlação {
     font-family: 'Poppins', sans-serif;
     position: relative;
@@ -246,7 +255,50 @@ div#grafico {
     top: 50px;
 }
 
-.correlacao, .esconder {
+.correlacao,
+.esconder {
+    display: none;
+}
+
+#highcharts-data-table-0,
+#highcharts-data-table-1,
+#highcharts-data-table-2,
+#highcharts-data-table-3,
+#highcharts-data-table-4 {
+    width: 500px;
+}
+
+#highcharts-data-table-0 th.text,
+#highcharts-data-table-1 th.text,
+#highcharts-data-table-2 th.text,
+#highcharts-data-table-3 th.text,
+#highcharts-data-table-4 th.text {
+    background-color: #A56B6B;
+}
+
+
+.highcharts-table-caption {
+    background-color: #4d1717;
+    color: #fff;
+}
+
+#highcharts-data-table-0 th.number,
+#highcharts-data-table-1 th.number,
+#highcharts-data-table-2 th.number,
+#highcharts-data-table-3 th.number,
+#highcharts-data-table-4 th.number {
+    border: 1px #606060;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#highcharts-data-table-0 tbody tr:last-child,
+#highcharts-data-table-1 tbody tr:last-child,
+#highcharts-data-table-2 tbody tr:last-child,
+#highcharts-data-table-3 tbody tr:last-child,
+#highcharts-data-table-4 tbody tr:last-child {
     display: none;
 }
 
